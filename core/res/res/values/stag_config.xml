@@ -19,6 +19,11 @@
     <string-array name="config_deviceKeyHandlerLibs" translatable="false">
     </string-array>
 
+    
+    <!-- Full screen aspect ratio -->
+    <bool name="config_haveHigherAspectRatioScreen">false</bool>
+    <item name="config_screenAspectRatio" format="float" type="dimen">2.1</item>
+    
     <!-- Hardware 'face' keys present on the device, stored as a bit field.
          This integer should equal the sum of the corresponding value for each
          of the following keys present:
@@ -30,8 +35,8 @@
          For example, a device with Home, Back and Menu keys would set this
          config to 7. -->
     <integer name="config_deviceHardwareKeys">0</integer>
-
-
+    
+    
     <!-- Names of the key handler classes -->
     <string-array name="config_deviceKeyHandlerClasses" translatable="false">
     </string-array>
