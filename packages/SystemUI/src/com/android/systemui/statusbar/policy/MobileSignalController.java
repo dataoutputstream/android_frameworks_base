@@ -109,6 +109,9 @@ public class MobileSignalController extends SignalController<
     // Show lte/4g switch
     private boolean mShowLteFourGee;
 
+    // Volte Icon
+    private boolean mVoLTEicon;
+
     // TODO: Reduce number of vars passed in, if we have the NetworkController, probably don't
     // need listener lists anymore.
     public MobileSignalController(Context context, Config config, boolean hasMobileData,
@@ -186,10 +189,15 @@ public class MobileSignalController extends SignalController<
         }
 
         void observe() {
+
            ContentResolver resolver = mContext.getContentResolver();
            resolver.registerContentObserver(Settings.System.getUriFor(
                   Settings.System.SHOW_LTE_FOURGEE),
                   false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.SHOW_VOLTE_ICON),false,
+                    this, UserHandle.USER_ALL);
+            updateSettings();
         }
 
         @Override
@@ -207,7 +215,17 @@ public class MobileSignalController extends SignalController<
             }
         }
     }
-    
+
+
+    private void updateSettings() {
+        ContentResolver resolver = mContext.getContentResolver();
+
+        mVoLTEicon = Settings.System.getIntForUser(resolver,
+                Settings.System.SHOW_VOLTE_ICON,0,
+                UserHandle.USER_CURRENT) == 1;
+        mapIconSets();
+        updateTelephony();
+    }
 
     public void setConfiguration(Config config) {
         mConfig = config;
@@ -393,7 +411,7 @@ public class MobileSignalController extends SignalController<
     private int getVolteResId() {
         int resId = 0;
         if ( (mCurrentState.voiceCapable || mCurrentState.videoCapable)
-                &&  mCurrentState.imsRegistered ) {
+                &&  mCurrentState.imsRegistered && mVoLTEicon) {
             resId = R.drawable.ic_volte;
         }
         return resId;
