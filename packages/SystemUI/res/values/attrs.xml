@@ -161,5 +161,10 @@
         <attr name="android:dialogCornerRadius" />
     </declare-styleable>
 
+     <!-- Padding needed on bottom of lockscreen for FoD devices -->
+    <dimen name="op_keyguard_indication_margin_bottom">415.0px</dimen>
+
+
+
 </resources>
 
