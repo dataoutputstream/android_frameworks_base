@@ -418,6 +418,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mDoubleTapToWake;
     private boolean mDoubleTapToDoze;
     private boolean mNativeDoubleTapToDozeAvailable;
+
     ANBIHandler mANBIHandler;
     private boolean mANBIEnabled;
 
@@ -886,6 +887,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.ANBI_ENABLED_OPTION), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DOZE_TRIGGER_DOUBLETAP), false, this,
                     UserHandle.USER_ALL);
             updateSettings();
         }
@@ -2229,6 +2233,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     public void updateSettings() {
         ContentResolver resolver = mContext.getContentResolver();
         boolean updateRotation = false;
+
+        int mDeviceHardwareWakeKeys = mContext.getResources().getInteger(
+                com.android.internal.R.integer.config_deviceHardwareWakeKeys);
 
         // Double-tap-to-doze
         mDoubleTapToWake = Settings.Secure.getInt(resolver,
