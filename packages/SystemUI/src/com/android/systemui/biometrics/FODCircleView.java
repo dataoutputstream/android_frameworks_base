@@ -251,7 +251,6 @@ public class FODCircleView extends ImageView implements OnTouchListener {
 
         mDisplayManager = context.getSystemService(DisplayManager.class);
 
-
         mPowerManager = context.getSystemService(PowerManager.class);
         mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FODCircleView");
 
