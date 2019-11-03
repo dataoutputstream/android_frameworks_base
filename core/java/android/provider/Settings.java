@@ -5879,6 +5879,12 @@ public final class Settings {
          */
         public static final String POPUP_CAMERA_LED_ENABLED = "popup_camera_led_enabled";
 
+        
+         /** @hide */
+        private static final Validator FOD_ANIM_VALIDATOR =
+                new SettingsValidators.InclusiveIntegerRangeValidator(0, 18);
+
+        
         /** @hide */
         public static final Validator POPUP_CAMERA_LED_ENABLED_VALIDATOR =
                 BOOLEAN_VALIDATOR;
