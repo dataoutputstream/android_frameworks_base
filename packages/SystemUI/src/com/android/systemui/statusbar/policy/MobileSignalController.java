@@ -106,6 +106,7 @@ public class MobileSignalController extends SignalController<
     private ImsManager mImsManager;
     private ImsManager.Connector mImsManagerConnector;
 
+
     private int mCallState = TelephonyManager.CALL_STATE_IDLE;
 
     private boolean mDataDisabledIcon;
@@ -201,6 +202,7 @@ public class MobileSignalController extends SignalController<
             resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.USE_OLD_MOBILETYPE),
                     false, this, UserHandle.USER_ALL);
+
         }
 
         @Override
@@ -415,27 +417,21 @@ public class MobileSignalController extends SignalController<
 
     private int getVolteResId() {
         int resId = 0;
-
-<<<<<<< HEAD
-        if (mCurrentState.imsRegistered && mVoLTEicon) {
-            switch(mVoLTEstyle) {
-                // VoLTE
-=======
         if (mCurrentState.imsRegistered) {
             switch(volteStyle()) {
->>>>>>> 255c907a325... Refactor VoLTE icon switch [1/2]
                 case 1:
                     resId = R.drawable.ic_volte1;
                     break;
-                // OOS VoLTE
                 case 2:
                     resId = R.drawable.ic_volte2;
                     break;
-                // HD Icon
                 case 3:
-                    resId = R.drawable.ic_hd_volte;
+                    resId = R.drawable.ic_volte3;
                     break;
- 	        //Vo
+                case 4:
+                    resId = R.drawable.ic_volte4;
+                    break;
+                    
                 case 0:
                 default:
                     resId = R.drawable.ic_volte;
