@@ -71,9 +71,15 @@ public class FODCircleView extends ImageView {
     private boolean mIsShowing;
     private boolean mIsCircleShowing;
     private boolean mIsPulsing;
+
     private boolean mIsInsideCircle;
 
     private float mCurrentDimAmount = 0.0f;
+
+
+    private boolean mIsScreenOn;
+    private boolean mIsViewAdded;
+    private boolean mIsRemoving;
 
 
     private Handler mHandler;
@@ -119,13 +125,39 @@ public class FODCircleView extends ImageView {
         }
         
         
-         @Override
-        public void onPulsing(boolean pulsing) {
-            super.onPulsing(pulsing);
-            mIsPulsing = pulsing;
-	    if (mIsPulsing) {
-                mIsDreaming = false;
-	    }
+
+        @Override
+        public void onScreenTurnedOff() {
+            super.onScreenTurnedOff();
+            mIsInsideCircle = false;
+        }
+
+        @Override
+        public void onStartedGoingToSleep(int why) {
+            super.onStartedGoingToSleep(why);
+            mIsInsideCircle = false;
+        }
+
+        @Override
+        public void onFinishedGoingToSleep(int why) {
+            super.onFinishedGoingToSleep(why);
+        }
+
+        @Override
+        public void onStartedWakingUp() {
+            super.onStartedWakingUp();
+        }
+
+        @Override
+        public void onScreenTurnedOn() {
+            super.onScreenTurnedOn();
+            mIsScreenOn = true;
+            mIsInsideCircle = false;
+        }
+
+        @Override
+        public void onKeyguardVisibilityChanged(boolean showing) {
+            super.onKeyguardVisibilityChanged(showing);
             mIsInsideCircle = false;
         }
 
@@ -215,6 +247,7 @@ public class FODCircleView extends ImageView {
         mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FODCircleView");
 
 
+
         getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             float drawingDimAmount = mParams.dimAmount;
             if (mCurrentDimAmount == 0.0f && drawingDimAmount > 0.0f) {
@@ -224,6 +257,9 @@ public class FODCircleView extends ImageView {
                 mCurrentDimAmount = drawingDimAmount;
             }
         });
+
+
+        Dependency.get(ConfigurationController.class).addCallback(this);
 
     }
 
@@ -237,10 +273,50 @@ public class FODCircleView extends ImageView {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
 
+
         if (mIsCircleShowing) {
             dispatchPress();
         } else {
             dispatchRelease();
+
+        // onLayout is a good time to call the HAL because dim layer
+        // added by setDim() should have come into effect
+        // the HAL is expected (if supported) to set the screen brightness
+        // to maximum / minimum immediately when called
+        if (mIsInsideCircle) {
+            if (mIsDreaming) {
+                setAlpha(1.0f);
+            }
+            if (!mIsPressed) {
+                IFingerprintInscreen daemon = getFingerprintInScreenDaemon();
+                if (daemon != null) {
+                    try {
+                        daemon.onPress();
+                    } catch (RemoteException e) {
+                        // do nothing
+                    }
+                }
+                mIsPressed = true;
+            }
+        } else {
+            setAlpha(mIsDreaming ? 0.5f : 1.0f);
+            if (mIsPressed) {
+                IFingerprintInscreen daemon = getFingerprintInScreenDaemon();
+                if (daemon != null) {
+                    try {
+                        daemon.onRelease();
+                    } catch (RemoteException e) {
+                        // do nothing
+                    }
+                }
+                mIsPressed = false;
+            }
+
+            if (mIsRemoving) {
+                mIsRemoving = false;
+                mWindowManager.removeView(this);
+            }
+
         }
     }
     
@@ -288,6 +364,7 @@ public class FODCircleView extends ImageView {
         return mFingerprintInscreenDaemon;
     }
 
+
     public void dispatchPress() {
        
         IFingerprintInscreen daemon = getFingerprintInScreenDaemon();
@@ -295,6 +372,17 @@ public class FODCircleView extends ImageView {
             daemon.onPress();
         } catch (RemoteException e) {
             // do nothing
+
+    public void show() {
+        if (mIsRemoving) {
+            // Last removal hasn't been finished yet
+            mIsRemoving = false;
+            mWindowManager.removeView(this);
+        }
+
+        if (mIsViewAdded) {
+            return;
+
         }
     }
 
@@ -341,6 +429,17 @@ public class FODCircleView extends ImageView {
       
 
 
+
+        mParams.setTitle("Fingerprint on display");
+        mParams.packageName = "android";
+        mParams.type = WindowManager.LayoutParams.TYPE_VOLUME_OVERLAY;
+        mParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+                WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH |
+                WindowManager.LayoutParams.FLAG_DIM_BEHIND |
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+        mParams.gravity = Gravity.TOP | Gravity.LEFT;
+
+
     public void hideCircle() {
         mIsCircleShowing = false;
 
@@ -370,6 +469,14 @@ public class FODCircleView extends ImageView {
 
         dispatchShow();
         setVisibility(View.VISIBLE);
+
+        mIsInsideCircle = false;
+        mIsViewAdded = false;
+        // Postpone removal to next re-layout to avoid blinking
+        mIsRemoving = true;
+        setDim(false);
+        invalidate();
+s
     }
 
     public void hide() {
@@ -418,6 +525,10 @@ public class FODCircleView extends ImageView {
         }
 
         if (mIsDreaming) {
+
+
+            mParams.x += mDreamingOffsetX;
+
             mParams.y += mDreamingOffsetY;
         }
 
@@ -447,7 +558,15 @@ public class FODCircleView extends ImageView {
             mParams.dimAmount = 0.0f;
         }
 
+
         mWindowManager.updateViewLayout(this, mParams);
+
+        try {
+            mWindowManager.updateViewLayout(this, mParams);
+        } catch (IllegalArgumentException e) {
+            // do nothing
+        }
+
     }
 
     private class BurnInProtectionTask extends TimerTask {
