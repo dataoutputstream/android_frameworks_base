@@ -6057,6 +6057,7 @@ public final class Settings {
         private static final Validator QS_BLUR_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /**
+<<<<<<< HEAD
          * QS blur alpha
          * @hide
          */
@@ -6073,6 +6074,15 @@ public final class Settings {
 
         /** @hide */
         private static final Validator QS_BLUR_INTENSITY_VALIDATOR = ANY_INTEGER_VALIDATOR;
+=======
+         * Enable\Disable visibility of smart replies in notifications
+         * @hide
+         */
+        public static final String HIDE_SMART_REPLIES = "hide_smart_replies";
+
+        /** @hide */
+        private static final Validator HIDE_SMART_REPLIES_VALIDATOR = BOOLEAN_VALIDATOR;
+>>>>>>> c780ffc679f... add toggle for notifications smart reply [1/2]
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
@@ -6233,6 +6243,8 @@ public final class Settings {
             QS_BLUR_ALPHA,
             QS_BLUR_INTENSITY
             };
+
+    
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to
@@ -6448,6 +6460,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(TEXT_CLOCK_PADDING);
             PRIVATE_SETTINGS.add(QS_BLUR);
             PRIVATE_SETTINGS.add(QS_BLUR_ALPHA);
+            PRIVATE_SETTINGS.add(HIDE_SMART_REPLIES);
         }
 
         /**
@@ -6647,6 +6660,7 @@ public final class Settings {
             VALIDATORS.put(QS_BLUR, QS_BLUR_VALIDATOR);
             VALIDATORS.put(QS_BLUR_ALPHA, QS_BLUR_ALPHA_VALIDATOR);
             VALIDATORS.put(QS_BLUR_INTENSITY, QS_BLUR_INTENSITY_VALIDATOR);
+            VALIDATORS.put(HIDE_SMART_REPLIES, HIDE_SMART_REPLIES_VALIDATOR);
         }
 
         /**
