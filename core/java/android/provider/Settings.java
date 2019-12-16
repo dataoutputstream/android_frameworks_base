@@ -6127,6 +6127,24 @@ public final class Settings {
         /** @hide */
         public static final Validator VOLTE_ICON_STYLE_VALIDATOR = ANY_INTEGER_VALIDATOR;
 
+
+        /** @hide */
+        private static final Validator DATA_DISABLED_ICON_VALIDATOR = BOOLEAN_VALIDATOR;
+
+        /**
+         * Whether to blink flashlight for incoming calls
+         * 0 = Disabled (Default)
+         * 1 = Blink flashlight only in Ringer mode
+         * 2 = Blink flashlight only in DND mode
+         * 3 = Blink flashlight always regardless of ringer mode
+         * @hide
+         */
+        public static final String FLASHLIGHT_ON_CALL = "flashlight_on_call";
+
+        /** @hide */
+        public static final Validator FLASHLIGHT_ON_CALL_VALIDATOR =
+                new SettingsValidators.InclusiveIntegerRangeValidator(0, 3);
+
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
@@ -6276,6 +6294,7 @@ public final class Settings {
             PULSE_AMBIENT_LIGHT_AUTO_COLOR_RIGHT,
             PULSE_AMBIENT_LIGHT_COLOR_RIGHT,
             PULSE_AMBIENT_LIGHT_RIGHT_DURATION,
+
             FOD_ICON,
             FOD_PRESSED_STATE,
             FOD_RECOGNIZING_ANIMATION,
@@ -6289,6 +6308,7 @@ public final class Settings {
             HIDE_SMART_REPLIES,
             QS_PANEL_BG_USE_NEW_TINT,
             NOTIFICATION_HEADERS,
+            FLASHLIGHT_ON_CALL
         };
 
         /**
@@ -6505,6 +6525,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(FACE_UF);
             PRIVATE_SETTINGS.add(HIDE_SMART_REPLIES);
             PRIVATE_SETTINGS.add(QS_PANEL_BG_USE_NEW_TINT);
+            PRIVATE_SETTINGS.add(FLASHLIGHT_ON_CALL);
         }
 
         /**
@@ -6706,6 +6727,7 @@ public final class Settings {
             VALIDATORS.put(HIDE_SMART_REPLIES, HIDE_SMART_REPLIES_VALIDATOR);
             VALIDATORS.put(QS_PANEL_BG_USE_NEW_TINT, QS_PANEL_BG_USE_NEW_TINT_VALIDATOR);
             VALIDATORS.put(NOTIFICATION_HEADERS, NOTIFICATION_HEADERS_VALIDATOR);
+            VALIDATORS.put(FLASHLIGHT_ON_CALL, FLASHLIGHT_ON_CALL_VALIDATOR);
         }
 
         /**
