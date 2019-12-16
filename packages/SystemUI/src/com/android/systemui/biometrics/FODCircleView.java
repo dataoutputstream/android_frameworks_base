@@ -18,6 +18,7 @@ package com.android.systemui.biometrics;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.ContentResolver;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -25,6 +26,10 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.Handler;
+
+import android.os.UserHandle;
+import android.os.IHwBinder;
+
 import android.os.Looper;
 import android.os.RemoteException;
 import android.provider.Settings;
@@ -101,7 +106,18 @@ public class FODCircleView extends ImageView {
 
         @Override
         public void onFingerUp() {
+
             mHandler.post(() -> hideCircle());
+
+            mIsInsideCircle = false;
+
+            mHandler.post(() -> {
+                setDim(false);
+                setFODIcon();
+
+                invalidate();
+            });
+
         }
     };
 
@@ -204,6 +220,9 @@ public class FODCircleView extends ImageView {
         } catch (RemoteException e) {
             throw new RuntimeException("Failed to retrieve FOD circle position or size");
         }
+
+        setFODIcon();
+
 
         Resources res = context.getResources();
 
@@ -326,7 +345,30 @@ public class FODCircleView extends ImageView {
         float x = event.getAxisValue(MotionEvent.AXIS_X);
         float y = event.getAxisValue(MotionEvent.AXIS_Y);
 
+
         boolean newIsInside = (x > 0 && x < mSize) && (y > 0 && y < mSize);
+
+        boolean newInside = (x > 0 && x < mWidth) && (y > 0 && y < mWidth);
+
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            newInside = false;
+            setDim(false);
+            setFODIcon();
+        }
+
+        if (newInside == mIsInsideCircle) {
+            return mIsInsideCircle;
+        }
+
+        mIsInsideCircle = newInside;
+
+        invalidate();
+
+        if (!mIsInsideCircle) {
+            setFODIcon();
+            return false;
+        }
+
 
         if (event.getAction() == MotionEvent.ACTION_DOWN && newIsInside) {
            
@@ -365,6 +407,7 @@ public class FODCircleView extends ImageView {
     }
 
 
+
     public void dispatchPress() {
        
         IFingerprintInscreen daemon = getFingerprintInScreenDaemon();
@@ -372,6 +415,24 @@ public class FODCircleView extends ImageView {
             daemon.onPress();
         } catch (RemoteException e) {
             // do nothing
+
+    private int getFODIcon() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.FOD_ICON, 0);
+    }
+
+    private void setFODIcon() {
+        int fodicon = getFODIcon();
+
+        if (fodicon == 0) {
+            this.setImageResource(R.drawable.fod_icon_default_0);
+        } else if (fodicon == 1) {
+            this.setImageResource(R.drawable.fod_icon_default_1);
+        } else if (fodicon == 2) {
+            this.setImageResource(R.drawable.fod_icon_default_2);
+        }
+    }
+
 
     public void show() {
         if (mIsRemoving) {
@@ -440,12 +501,16 @@ public class FODCircleView extends ImageView {
         mParams.gravity = Gravity.TOP | Gravity.LEFT;
 
 
+
     public void hideCircle() {
         mIsCircleShowing = false;
 
         mPaintFingerprint.setColor(mColorBackground);
         setImageResource(R.drawable.fod_icon_default);
         invalidate();
+
+        setFODIcon();
+
 
 
         setDim(false);
