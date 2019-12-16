@@ -5644,7 +5644,19 @@ public final class Settings {
         public static final String HAPTIC_ON_ACTION_KEY = "haptic_on_action_key";
 
         /**
+
          * Whether the Home button works during call
+
+         * FOD icon picker
+         * @hide
+         */
+        public static final String FOD_ICON = "fod_icon";
+
+        /**
+         * Whether the battery light should be enabled (if hardware supports it)
+         * The value is boolean (1 or 0).
+          * User definable value of pulse notification screen brightness
+         *
          * @hide
          */
         public static final String ALLOW_INCALL_HOME = "allow_incall_home";
