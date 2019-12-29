@@ -325,6 +325,7 @@ public class FODCircleView extends ImageView {
     public void showCircle() {
         mIsCircleShowing = true;
 
+<<<<<<< HEAD
         setKeepScreenOn(true);
         
         
@@ -335,6 +336,15 @@ public class FODCircleView extends ImageView {
         setImageResource(R.drawable.fod_icon_pressed);
         invalidate();
     }
+        mParams.setTitle("Fingerprint on display");
+        mParams.packageName = "android";
+        mParams.type = WindowManager.LayoutParams.TYPE_DISPLAY_OVERLAY;
+        mParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+                WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH |
+                WindowManager.LayoutParams.FLAG_DIM_BEHIND |
+                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+        mParams.gravity = Gravity.TOP | Gravity.LEFT;
+
 
     public void hideCircle() {
         mIsCircleShowing = false;
