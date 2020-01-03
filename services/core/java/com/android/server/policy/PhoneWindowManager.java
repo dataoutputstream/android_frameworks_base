@@ -698,9 +698,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private static final int MSG_NOTIFY_USER_ACTIVITY = 26;
     private static final int MSG_RINGER_TOGGLE_CHORD = 27;
     private static final int MSG_MOVE_DISPLAY_TO_TOP = 28;
-
     private static final int MSG_DISPATCH_VOLKEY_WITH_WAKE_LOCK = 29;
     private static final int MSG_TOGGLE_TORCH = 30;
+
     private boolean mOmniSwitchRecents;
 
     private SwipeToScreenshotListener mSwipeToScreenshot;
@@ -807,9 +807,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     break;
                 }
                 case MSG_TOGGLE_TORCH:
-                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, true,
-                            "Power - Long Press - Torch");
-                    StagUtils.toggleCameraFlash();
+                    toggleFlashLight();
                     break;
                 case HardkeyActionHandler.MSG_FIRE_HOME:
                     launchHomeFromHotKey(DEFAULT_DISPLAY);
@@ -824,6 +822,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     break;
             }
         }
+    }
+
+
+    private void toggleFlashLight() {
+        performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, true,
+				"Power - Long Press - Torch");
+        StagUtils.toggleCameraFlash();
     }
 
     private UEventObserver mHDMIObserver = new UEventObserver() {
@@ -1332,9 +1337,13 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         switch (behavior) {
             case MULTI_PRESS_POWER_NOTHING:
                 if ((mTorchActionMode == 1) && (!isScreenOn() || isDozeMode())) {
+<<<<<<< HEAD
                     performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, true,
                             "Power - Long Press - Torch");
                     StagUtils.toggleCameraFlash();
+=======
+                    toggleFlashLight();
+>>>>>>> 6687d02a5be... Power button flashlight toggle: rely on aosp doze sensors check code
                 }
                 break;
             case MULTI_PRESS_POWER_THEATER_MODE:
