@@ -51,6 +51,7 @@
         sysui:ignoreRightInset="true"
         />
 
+<<<<<<< HEAD
     <com.android.systemui.statusbar.VisualizerView
         android:id="@+id/visualizerview"
         android:gravity="bottom"
@@ -59,6 +60,12 @@
         android:layout_height="match_parent"
         android:visibility="visible"
         sysui:ignoreRightInset="true" />
+    
+    <ImageView
+        android:id="@+id/qs_blur"
+        android:background="#000000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <FrameLayout
         android:id="@+id/status_bar_container"
