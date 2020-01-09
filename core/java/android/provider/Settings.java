@@ -6107,14 +6107,19 @@ public final class Settings {
 
         private static final Validator NOTIFICATION_HEADERS_VALIDATOR = BOOLEAN_VALIDATOR;
 
-        /**
-         * Whether to show VoLTE icon or not
-         * @hide
-         */
-        public static final String SHOW_VOLTE_ICON = "volte_icon";
-
+        
         /**
          * VoLTE icon styles
+         * Whether to show VoLTE icon
+         * @hide
+         */
+        public static final String VOLTE_ICON = "volte_icon";
+
+        /** @hide */
+        private static final Validator VOLTE_ICON_VALIDATOR = BOOLEAN_VALIDATOR;
+
+        /**
+         * Whether to show VoLTE icon or not
          * @hide
          */
         public static final String VOLTE_ICON_STYLE = "volte_icon_style";
@@ -6259,6 +6264,7 @@ public final class Settings {
             ALLOW_INCALL_HOME,
             LOCKSCREEN_MEDIA_BLUR,
             SCREEN_OFF_ANIMATION,
+            VOLTE_ICON,
             VOLTE_ICON_STYLE,
             ANBI_ENABLED_OPTION,
             STATUS_BAR_QUICK_QS_PULLDOWN,
@@ -6479,6 +6485,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(LOCKSCREEN_MEDIA_BLUR);
             PRIVATE_SETTINGS.add(LOCKSCREEN_MEDIA_METADATA);
             PRIVATE_SETTINGS.add(SCREEN_OFF_ANIMATION);
+            PRIVATE_SETTINGS.add(VOLTE_ICON);
             PRIVATE_SETTINGS.add(VOLTE_ICON_STYLE);
             PRIVATE_SETTINGS.add(FORCE_SHOW_NAVBAR);
             PRIVATE_SETTINGS.add(ANBI_ENABLED_OPTION);
@@ -6671,6 +6678,7 @@ public final class Settings {
             VALIDATORS.put(LOCKSCREEN_MEDIA_BLUR, LOCKSCREEN_MEDIA_BLUR_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_MEDIA_METADATA, LOCKSCREEN_MEDIA_METADATA_VALIDATOR);
             VALIDATORS.put(SCREEN_OFF_ANIMATION, SCREEN_OFF_ANIMATION_VALIDATOR);
+            VALIDATORS.put(VOLTE_ICON, VOLTE_ICON_VALIDATOR);
             VALIDATORS.put(VOLTE_ICON_STYLE, VOLTE_ICON_STYLE_VALIDATOR);
             VALIDATORS.put(FORCE_SHOW_NAVBAR, FORCE_SHOW_NAVBAR_VALIDATOR);
             VALIDATORS.put(ANBI_ENABLED_OPTION, ANBI_ENABLED_OPTION_VALIDATOR);
