@@ -318,7 +318,7 @@ public class FODCircleView extends ImageView {
                 mIsPressed = true;
             }
         } else {
-            setAlpha(mIsDreaming ? 0.5f : 1.0f);
+            setAlpha(1.0f);
             if (mIsPressed) {
                 IFingerprintInscreen daemon = getFingerprintInScreenDaemon();
                 if (daemon != null) {
