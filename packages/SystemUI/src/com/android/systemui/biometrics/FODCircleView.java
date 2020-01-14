@@ -75,6 +75,7 @@ public class FODCircleView extends ImageView {
 
     private float mCurrentDimAmount = 0.0f;
 
+
     private Handler mHandler;
     
     private PowerManager mPowerManager;
@@ -114,9 +115,9 @@ public class FODCircleView extends ImageView {
             } else if (mBurnInProtectionTimer != null) {
                 mBurnInProtectionTimer.cancel();
                 //mWakeLock.release();
-
             }
         }
+        
         
          @Override
         public void onPulsing(boolean pulsing) {
@@ -175,7 +176,7 @@ public class FODCircleView extends ImageView {
         Resources res = context.getResources();
 
         mColor = res.getColor(R.color.config_fodColor);
-        mColorBackground = res.getColor(R.color.config_fodColor);
+        mColorBackground = res.getColor(R.color.config_fodColorBackground);
 
         mPaintFingerprint.setAntiAlias(true);
         mPaintFingerprint.setColor(mColorBackground);
@@ -207,10 +208,12 @@ public class FODCircleView extends ImageView {
 
         mUpdateMonitor = KeyguardUpdateMonitor.getInstance(context);
         mUpdateMonitor.registerCallback(mMonitorCallback);
+
         
         
         mPowerManager = context.getSystemService(PowerManager.class);
         mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FODCircleView");
+
 
         getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             float drawingDimAmount = mParams.dimAmount;
@@ -221,7 +224,7 @@ public class FODCircleView extends ImageView {
                 mCurrentDimAmount = drawingDimAmount;
             }
         });
-        
+
     }
 
     @Override
@@ -325,7 +328,6 @@ public class FODCircleView extends ImageView {
     public void showCircle() {
         mIsCircleShowing = true;
 
-<<<<<<< HEAD
         setKeepScreenOn(true);
         
         
@@ -336,14 +338,7 @@ public class FODCircleView extends ImageView {
         setImageResource(R.drawable.fod_icon_pressed);
         invalidate();
     }
-        mParams.setTitle("Fingerprint on display");
-        mParams.packageName = "android";
-        mParams.type = WindowManager.LayoutParams.TYPE_DISPLAY_OVERLAY;
-        mParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
-                WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH |
-                WindowManager.LayoutParams.FLAG_DIM_BEHIND |
-                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
-        mParams.gravity = Gravity.TOP | Gravity.LEFT;
+      
 
 
     public void hideCircle() {
