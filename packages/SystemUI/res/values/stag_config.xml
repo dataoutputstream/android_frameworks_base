@@ -33,13 +33,12 @@
     <!-- The CPU temperature divider, if needed -->
     <integer name="config_cpuTempDivider" translatable="false">1</integer>
 
-<<<<<<< HEAD:packages/SystemUI/res/values/stag_config.xml
-=======
+
     <!-- The CPUs to display in CPUInfoService view -->
     <string name="config_displayCpus" translatable="false"></string>
 
     <!-- Whether the binned brightness sensor reports a value of 0 on proximity
          near events -->
     <bool name="doze_brightness_sensor_reports_proximity" translatable="false">true</bool>
->>>>>>> be79e45a416... DozeSensors: do not use binned brightness sensor for proximity if not supported:packages/SystemUI/res/values/bootleg_config.xml
+
 </resources>
