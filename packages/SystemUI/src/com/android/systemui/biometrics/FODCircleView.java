@@ -306,6 +306,36 @@ public class FODCircleView extends ImageView {
     protected void onDraw(Canvas canvas) {
         canvas.drawCircle(mSize / 2, mSize / 2, mSize / 2.0f, mPaintFingerprint);
         super.onDraw(canvas);
+
+
+        if (mIsCircleShowing) {
+            if (getFODPressedState() == 0) {
+                //canvas.drawCircle(mSize / 2, mSize / 2, mSize / 2.0f, mPaintFingerprint);
+                setImageResource(R.drawable.fod_icon_pressed);
+            } else if (getFODPressedState() == 1) {
+                //canvas.drawCircle(mSize / 2, mSize / 2, mSize / 2.0f, mPaintFingerprint);
+                setImageResource(R.drawable.fod_icon_pressed_white);
+            } else if (getFODPressedState() == 2) {
+                canvas.drawCircle(mSize / 2, mSize / 2, mSize / 2.0f, mPaintFingerprint);
+            }
+        }
+    }
+
+    private int getFODPressedState() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.FOD_PRESSED_STATE, 0);
+    }
+
+    private void setFODPressedState() {
+        int fodpressed = getFODPressedState();
+
+        if (fodpressed == 0) {
+            setImageResource(R.drawable.fod_icon_pressed);
+        } else if (fodpressed == 1) {
+            setImageResource(R.drawable.fod_icon_pressed_white);
+        } else if (fodpressed == 2) {
+            setImageDrawable(null);
+        }
     }
 
         @Override
@@ -439,6 +469,35 @@ public class FODCircleView extends ImageView {
             daemon.onPress();
         } catch (RemoteException e) {
             // do nothing
+
+        }
+    }
+
+    public void showCircle() {
+        mIsCircleShowing = true;
+
+        setKeepScreenOn(true);
+
+        if (mIsDreaming) mWakeLock.acquire(500);
+        setDim(true);
+        updateAlpha();
+
+        setFODPressedState();
+        invalidate();
+    }
+
+    public void hideCircle() {
+        mIsCircleShowing = false;
+
+        setFODIcon();
+        invalidate();
+
+        setDim(false);
+        updateAlpha();
+
+        setKeepScreenOn(false);
+    }
+
 
     private int getFODIcon() {
         return Settings.System.getInt(mContext.getContentResolver(),
