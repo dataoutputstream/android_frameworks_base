@@ -203,6 +203,7 @@ import com.android.systemui.statusbar.CommandQueue;
 import com.android.systemui.statusbar.CrossFadeHelper;
 import com.android.systemui.statusbar.EmptyShadeView;
 import com.android.systemui.statusbar.GestureRecorder;
+import com.android.systemui.statusbar.info.DataUsageView;
 import com.android.systemui.statusbar.KeyboardShortcuts;
 import com.android.systemui.statusbar.KeyguardIndicationController;
 import com.android.systemui.statusbar.NavigationBarController;
@@ -521,6 +522,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
     };
 
+    private boolean dataupdated = false;
 
     private static Context mStaticContext;
     private static ImageButton mDismissAllButton;
@@ -1232,7 +1234,7 @@ public class StatusBar extends SystemUI implements DemoMode,
 
         mFlashlightController = Dependency.get(FlashlightController.class);
     }
-   private void adjustBrightness(int x) {
+    private void adjustBrightness(int x) {
         mBrightnessChanged = true;
         float raw = ((float) x) / getDisplayWidth();
 
@@ -1364,7 +1366,12 @@ public class StatusBar extends SystemUI implements DemoMode,
         return FragmentHostManager.get(mStatusBarWindow).create(QSFragment.class);
     }
 
-    public void updateBlurVisibility() {
+public void updateBlurVisibility() {
+
+          if (QSBlurAlpha > 0 && !dataupdated && !mIsKeyguard) {
+            DataUsageView.updateUsage();
+            dataupdated = true;
+        }
 
         int QSUserAlpha = Settings.System.getInt(mContext.getContentResolver(),
               Settings.System.QS_BLUR_ALPHA, 100);
@@ -1382,11 +1389,13 @@ public class StatusBar extends SystemUI implements DemoMode,
             mQSBlurView.setBackgroundDrawable(blurbackground);
         } else if (!enoughBlurData || mState == StatusBarState.KEYGUARD) {
             blurperformed = false;
+            dataupdated = false;
             mQSBlurView.setBackgroundColor(Color.TRANSPARENT);
         }
         mQSBlurView.setAlpha(QSBlurAlpha);
         mQSBlurView.getBackground().setAlpha(QSBlurAlpha);
     }
+
 
     private boolean isQSBlurEnabled() {
         return Settings.System.getInt(mContext.getContentResolver(),
