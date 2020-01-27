@@ -640,7 +640,9 @@ s
         if (mIsDreaming) {
 
 
-            mParams.x += mDreamingOffsetX;
+
+
+            //mParams.x += mDreamingOffsetX;
 
             mParams.y += mDreamingOffsetY;
         }
