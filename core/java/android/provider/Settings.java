@@ -5503,6 +5503,24 @@ public final class Settings {
 
         /**
          * whether to enable or disable vibration on succesful fingerprint auth
+         * Wheter to play notification sound and vibration if screen is ON
+         * 0 - never
+         * 1 - always
+         * @hide
+         */
+        public static final String NOTIFICATION_SOUND_VIB_SCREEN_ON = "notification_sound_vib_screen_on";
+
+        /**
+         * FOD recognizing animation
+         * @hide
+         */
+        public static final String FOD_RECOGNIZING_ANIMATION = "fod_recognizing_animation";
+
+        /**
+         * Refreshed screenshot animation
+         /**
+         * Change quick settings tiles animation style
+
          *
          * @hide
          */
