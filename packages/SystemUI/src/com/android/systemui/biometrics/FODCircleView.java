@@ -48,6 +48,7 @@ import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.keyguard.KeyguardUpdateMonitorCallback;
 import com.android.systemui.R;
 import com.android.systemui.Dependency;
+import com.android.internal.widget.LockPatternUtils;
 import com.android.systemui.statusbar.policy.ConfigurationController;
 import com.android.systemui.statusbar.policy.ConfigurationController.ConfigurationListener;
 
@@ -79,10 +80,13 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
     private boolean mIsKeyguard;
     private boolean mIsShowing;
     private boolean mIsCircleShowing;
+    private boolean mIsAuthenticated;
     
      private float mCurrentDimAmount = 0.0f;
 
     private Handler mHandler;
+    
+    private LockPatternUtils mLockPatternUtils;
 
     private PowerManager mPowerManager;
     private PowerManager.WakeLock mWakeLock;
@@ -434,7 +438,9 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
     }
 
     private void updateAlpha() {
-        setAlpha(1.0f);
+        if (mIsCircleShowing) {
+            setAlpha(1.0f);
+        }
     }
 
     private void updateStyle() {
