@@ -213,4 +213,5 @@
 
     <color name="config_fodColorBackground">#20000000</color>
 
+    <color name="divider_stroke_color">#E0E0E0</color>
 </resources>
