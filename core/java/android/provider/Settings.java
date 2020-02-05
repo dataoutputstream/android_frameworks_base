@@ -5978,6 +5978,42 @@ public final class Settings {
         public static final String LOCKOWNER_FONT_SIZE= "lockowner_font_size";
 
         /**
+         * Whether to show lockscreen clock
+         * @hide
+         */
+        public static final String LOCKSCREEN_CLOCK = "lockscreen_clock";
+
+        /** @hide */
+        private static final Validator LOCKSCREEN_CLOCK_VALIDATOR = BOOLEAN_VALIDATOR;
+
+        /**
+         * Whether to show the items underneath lockscreen clock
+         * @hide
+         */
+        public static final String LOCKSCREEN_INFO = "lockscreen_info";
+
+        /** @hide */
+        private static final Validator LOCKSCREEN_INFO_VALIDATOR = BOOLEAN_VALIDATOR;
+
+        /**
+         * Text clock alignment
+         * @hide
+         */
+        public static final String TEXT_CLOCK_ALIGNMENT = "text_clock_alignment";
+
+        /** @hide */
+        private static final Validator TEXT_CLOCK_ALIGNMENT_VALIDATOR = ANY_INTEGER_VALIDATOR;
+
+        /**
+         * Text clock padding
+         * @hide
+         */
+        public static final String TEXT_CLOCK_PADDING = "text_clock_padding";
+
+        /** @hide */
+        private static final Validator TEXT_CLOCK_PADDING_VALIDATOR = ANY_INTEGER_VALIDATOR;
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -6127,7 +6163,11 @@ public final class Settings {
             FOD_PRESSED_STATE,
             FOD_RECOGNIZING_ANIMATION,
             FOD_ANIM,
-        };
+            LOCKSCREEN_CLOCK,
+            LOCKSCREEN_INFO,
+            TEXT_CLOCK_ALIGNMENT,
+            TEXT_CLOCK_PADDING,
+            };
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to
@@ -6336,7 +6376,10 @@ public final class Settings {
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_RIGHT_DURATION);
             PRIVATE_SETTINGS.add(POPUP_CAMERA_LED_ENABLED);
             PRIVATE_SETTINGS.add(POPUP_CAMERA_BATTERY_LED_BLOCKED);
-
+            PRIVATE_SETTINGS.add(LOCKSCREEN_CLOCK);
+            PRIVATE_SETTINGS.add(LOCKSCREEN_INFO);
+            PRIVATE_SETTINGS.add(TEXT_CLOCK_ALIGNMENT);
+            PRIVATE_SETTINGS.add(TEXT_CLOCK_PADDING);
         }
 
         /**
@@ -6525,10 +6568,17 @@ public final class Settings {
             VALIDATORS.put(FOD_PRESSED_STATE, FOD_PRESSED_STATE_VALIDATOR);
             VALIDATORS.put(FOD_RECOGNIZING_ANIMATION, FOD_RECOGNIZING_ANIMATION_VALIDATOR);
             VALIDATORS.put(FOD_ANIM, FOD_ANIM_VALIDATOR);
+<<<<<<< HEAD
             VALIDATORS.put(LOCKSCREEN_MEDIA_METADATA,LOCKSCREEN_MEDIA_METADATA_VALIDATOR);
             VALIDATORS.put(POPUP_CAMERA_LED_ENABLED, POPUP_CAMERA_LED_ENABLED_VALIDATOR);
             VALIDATORS.put(POPUP_CAMERA_BATTERY_LED_BLOCKED, POPUP_CAMERA_BATTERY_LED_BLOCKED_VALIDATOR);
 
+=======
+            VALIDATORS.put(LOCKSCREEN_CLOCK, LOCKSCREEN_CLOCK_VALIDATOR);
+            VALIDATORS.put(LOCKSCREEN_INFO, LOCKSCREEN_INFO_VALIDATOR);
+            VALIDATORS.put(TEXT_CLOCK_ALIGNMENT, TEXT_CLOCK_ALIGNMENT_VALIDATOR);
+            VALIDATORS.put(TEXT_CLOCK_PADDING, TEXT_CLOCK_PADDING_VALIDATOR);
+>>>>>>> 2bb7b5c1ed7... SystemUI: Custom Text Clock Customizations [1/2]
         }
 
         /**
