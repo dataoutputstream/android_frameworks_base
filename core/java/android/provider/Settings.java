@@ -5645,7 +5645,16 @@ public final class Settings {
         private static final Validator SCREENSHOT_TYPE_VALIDATOR = ANY_INTEGER_VALIDATOR;
 
         /**
+
          * Change volume up and down handlign based on rotation
+
+         * FOD recognizing animation picker
+         * @hide
+         */
+        public static final String FOD_ANIM = "fod_anim";
+
+        /**
+         * Accent Color
          * @hide
          */
         public static final String SWAP_VOLUME_BUTTONS = "swap_volume_buttons";
