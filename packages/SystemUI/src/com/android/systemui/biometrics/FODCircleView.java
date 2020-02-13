@@ -693,7 +693,7 @@ s
 
         if (mIsKeyguard) {
             mParams.x = mPositionX;
-            mParams.y = mPositionY;
+            mParams.y = mPositionY - cutoutMaskedExtra;
         }
 
         if (mIsDreaming) {
