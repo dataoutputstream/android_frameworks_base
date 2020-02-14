@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.hardware.biometrics.BiometricSourceType;
 import android.hardware.face.FaceManager;
 import android.hardware.fingerprint.FingerprintManager;
@@ -38,8 +39,10 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.app.IBatteryStats;
@@ -71,6 +74,8 @@ import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.IllegalFormatConversionException;
 
+import vendor.lineage.biometrics.fingerprint.inscreen.V1_0.IFingerprintInscreen;
+
 /**
  * Controls the indications and error messages shown on the Keyguard
  */
@@ -95,6 +100,11 @@ public class KeyguardIndicationController implements StateListener,
     private ViewGroup mIndicationArea;
     private KeyguardIndicationTextView mTextView;
     private KeyguardIndicationTextView mDisclosure;
+
+    private LottieAnimationView mChargingIndicationView;
+    private boolean mChargingIndication = true;
+    private int mFODPositionY = 0;
+
     private final UserManager mUserManager;
     private final IBatteryStats mBatteryInfo;
     private final SettableWakeLock mWakeLock;
@@ -200,6 +210,19 @@ public class KeyguardIndicationController implements StateListener,
     }
 
     public void setIndicationArea(ViewGroup indicationArea) {
+        mChargingIndicationView = (LottieAnimationView) indicationArea.findViewById(
+                R.id.charging_indication);
+        if (hasActiveInDisplayFp()) {
+            try {
+                IFingerprintInscreen daemon = IFingerprintInscreen.getService();
+                mFODPositionY = daemon.getPositionY();
+            } catch (RemoteException e) {
+                // do nothing
+            }
+            if (mFODPositionY <= 0) {
+                mFODPositionY = 0;
+            }
+        }
         mIndicationArea = indicationArea;
         mTextView = indicationArea.findViewById(R.id.keyguard_indication_text);
         mInitialTextColorState = mTextView != null ?
@@ -448,7 +471,61 @@ public class KeyguardIndicationController implements StateListener,
                 mTextView.switchIndication(mRestingIndication);
                 mTextView.setTextColor(mInitialTextColorState);
             }
+
+            updateChargingIndication();
         }
+    }
+
+    public void updateChargingIndication(boolean visible) {
+        mChargingIndication = visible;
+    }
+
+    private void updateChargingIndication() {
+        if (mChargingIndication && !mDozing && mPowerPluggedIn) {
+            mChargingIndicationView.setVisibility(View.VISIBLE);
+            if (hasActiveInDisplayFp()) {
+                if (mFODPositionY != 0) {
+                    // Get screen height
+                    WindowManager windowManager = mContext.getSystemService(WindowManager.class);
+                    Display defaultDisplay = windowManager.getDefaultDisplay();
+                    Point size = new Point();
+                    defaultDisplay.getRealSize(size);
+                    int screenHeight = size.y;
+                    // Correct FOD position if cutout is hidden
+                    int statusbarHeight = mContext.getResources().getDimensionPixelSize(
+                            com.android.internal.R.dimen.status_bar_height_portrait);
+                    boolean cutoutMasked = mContext.getResources().getBoolean(
+                            com.android.internal.R.bool.config_maskMainBuiltInDisplayCutout);
+                    int fodPositionY = mFODPositionY;
+                    if (cutoutMasked) {
+                        fodPositionY = mFODPositionY - statusbarHeight;
+                    }
+                    // Get indication text height
+                    int textViewHeight = mTextView.getMeasuredHeight();
+                    // Get bottom margin height
+                    int marginBottom = mContext.getResources().getDimensionPixelSize(
+                            R.dimen.keyguard_indication_margin_bottom_fingerprint_in_display);
+                    // Calculate charging indication margin
+                    int animationMargin = (screenHeight - fodPositionY) - (textViewHeight + marginBottom) + 10;
+                    // Set position of charging indication
+                    ViewGroup.MarginLayoutParams params =
+                            (ViewGroup.MarginLayoutParams) mChargingIndicationView.getLayoutParams();
+                    params.setMargins(0, 0, 0, animationMargin);
+                    mChargingIndicationView.setLayoutParams(params);
+                }
+            }
+            mChargingIndicationView.playAnimation();
+        } else {
+            mChargingIndicationView.setVisibility(View.GONE);
+        }
+    }
+
+    private boolean hasActiveInDisplayFp() {
+        boolean hasInDisplayFingerprint = mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_supportsInDisplayFingerprint);
+        int userId = KeyguardUpdateMonitor.getCurrentUser();
+        FingerprintManager fpm = (FingerprintManager) mContext.getSystemService(Context.FINGERPRINT_SERVICE);
+        return hasInDisplayFingerprint && fpm.getEnrolledFingerprints(userId).size() > 0;
     }
 
     // animates textView - textView moves up and bounces down
