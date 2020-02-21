@@ -5577,10 +5577,18 @@ public final class Settings {
          */
         public static final String OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE = "qs_layout_columns_landscape";
 
+
          /** @hide */
         private static final Validator OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE_VALIDATOR = ANY_INTEGER_VALIDATOR;
 
          /**
+
+        /** @hide */
+        private static final Validator FOD_ANIM_VALIDATOR =
+                new SettingsValidators.InclusiveIntegerRangeValidator(0, 17);
+
+        /**
+         * Gaming mode master switch
          * @hide
          */
         public static final String OMNI_QS_LAYOUT_COLUMNS = "qs_layout_columns";
