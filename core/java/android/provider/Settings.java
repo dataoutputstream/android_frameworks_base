@@ -5892,7 +5892,13 @@ public final class Settings {
          *   1 = enabled
          * @hide
          */
+
         public static final String ADAPTIVE_PLAYBACK_ENABLED = "adaptive_playback_enabled";
+
+        /** @hide */
+        private static final Validator FOD_PRESSED_STATE_VALIDATOR =
+                new SettingsValidators.InclusiveIntegerRangeValidator(0, 6);
+
 
         /**
          * Adaptive playback's timeout in ms
