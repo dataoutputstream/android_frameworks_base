@@ -792,6 +792,18 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
     private int mNumTouchMoveEvent = 0;
 
     /**
+     * for ListView Animations
+     */
+    private boolean mIsWidget;
+    private int mListAnimationMode = 0;
+    private int mListAnimationInterpolatorMode = 0;
+    private boolean mListAnimationModeSet = false;
+    private int mWidth, mHeight = 0;
+    private int mPositionV;
+    private boolean mIsTap = false;
+
+
+    /**
      * Interface definition for a callback to be invoked when the list or grid
      * has been scrolled.
      */
