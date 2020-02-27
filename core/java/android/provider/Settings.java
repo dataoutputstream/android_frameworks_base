@@ -5632,7 +5632,11 @@ public final class Settings {
         public static final String OMNI_QS_LAYOUT_ROWS = "qs_layout_rows";
 
         /** @hide */
+
         private static final Validator OMNI_QS_LAYOUT_ROWS_VALIDATOR = ANY_INTEGER_VALIDATOR;
+
+        private static final Validator FOD_ANIM_VALIDATOR2 
+                =new SettingsValidators.InclusiveIntegerRangeValidator(0, 18);
 
         /**
          * @hide
