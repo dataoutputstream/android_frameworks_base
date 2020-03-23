@@ -58,6 +58,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.PointerIcon;
+import android.os.SystemProperties;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
