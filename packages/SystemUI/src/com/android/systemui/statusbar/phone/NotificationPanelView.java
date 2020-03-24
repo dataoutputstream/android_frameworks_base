@@ -503,11 +503,8 @@ public class NotificationPanelView extends PanelView implements
         mDoubleTapGesture = new GestureDetector(mContext, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
-<<<<<<< HEAD
-                StagUtils.switchScreenOff(context);
-=======
-                CandyUtils.switchScreenOff(mContext);
->>>>>>> b51836cba36... statusbar: Fixes for dt2s
+
+                StagUtils.switchScreenOff(mContext);
                 // quick pulldown can trigger those values
                 // on double tap - so reset them
                 mQsExpandImmediate = false;
@@ -520,11 +517,7 @@ public class NotificationPanelView extends PanelView implements
                 new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
-<<<<<<< HEAD
-                StagUtils.switchScreenOff(context);
-=======
-                CandyUtils.switchScreenOff(mContext);
->>>>>>> b51836cba36... statusbar: Fixes for dt2s
+                StagUtils.switchScreenOff(mContext);
                 return true;
             }
         });
