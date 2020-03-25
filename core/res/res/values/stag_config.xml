@@ -95,6 +95,7 @@
 
     <!-- Whether to show a custom view for FOD -->
     <bool name="config_needCustomFODView">false</bool>
+    <bool name="config_supportsInDisplayFingerprint">false</bool>
 
     <string-array translatable="false" name="config_customPermissionsList">
         <item>com.google.android.apps.wellbeing</item>
@@ -166,6 +167,8 @@
 
     <!-- Whether or not we should show vendor mismatch message -->
     <bool name="config_show_vendor_mismatch_message">true</bool>
+    
+    
 
 
 </resources>

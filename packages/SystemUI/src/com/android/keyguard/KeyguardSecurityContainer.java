@@ -52,6 +52,8 @@ import com.android.systemui.SystemUIFactory;
 import com.android.systemui.statusbar.phone.UnlockMethodCache;
 import com.android.systemui.util.InjectionInflationController;
 
+import com.android.internal.util.custom.fod.FodUtils;
+
 public class KeyguardSecurityContainer extends FrameLayout implements KeyguardSecurityView {
     private static final boolean DEBUG = KeyguardConstants.DEBUG;
     private static final String TAG = "KeyguardSecurityView";
@@ -478,8 +480,10 @@ public class KeyguardSecurityContainer extends FrameLayout implements KeyguardSe
     }
 
     private boolean hasInDisplayFingerprint() {
-        return mContext.getPackageManager().hasSystemFeature(FOD);
-    }
+
+        //return mContext.getPackageManager().hasSystemFeature(FOD);
+
+        return FodUtils.hasFodSupport(mContext);    }
 
     /**
      * Shows the primary security screen for the user. This will be either the multi-selector
