@@ -39,6 +39,7 @@
     <string name="config_fpsInfoSysNode" translatable="false"></string>
 
 
+
     <!-- The CPUs to display in CPUInfoService view -->
     <string name="config_displayCpus" translatable="false"></string>
 
@@ -50,4 +51,8 @@
     <bool name="config_biometricHelpShowOnlyWhenFailed">false</bool>
 
 
+
+    <!-- Enable face auth only when swiping security view -->
+    <bool name="config_faceAuthOnlyOnSecurityView">true</bool>
+    
 </resources>
