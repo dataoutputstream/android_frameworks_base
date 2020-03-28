@@ -62,7 +62,7 @@ import android.view.WindowManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
+import android.hardware.biometrics.BiometricSourceType;
 import com.android.internal.annotations.VisibleForTesting;
 import com.android.internal.widget.LockPatternUtils;
 import com.android.keyguard.KeyguardUpdateMonitor;
@@ -168,6 +168,7 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
     private int mIndicationBottomMargin;
     private float mDarkAmount;
     private int mBurnInXOffset;
+    private boolean mIsFingerprintRunning;
     private int mBurnInYOffset;
     private ActivityIntentHelper mActivityIntentHelper;
     //Omni
@@ -659,6 +660,10 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
     public View getLeftPreview() {
         return mLeftPreview;
     }
+    
+     private boolean hasInDisplayFingerprint() {
+        return mIsFingerprintRunning;
+    }
 
     public View getRightPreview() {
         return mCameraPreview;
@@ -767,6 +772,15 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
                     updateCameraVisibility();
                     updateLeftAffordance();
                     updateRightAffordance();
+
+                }
+                @Override
+                public void onBiometricRunningStateChanged(boolean running,
+                            BiometricSourceType biometricSourceType) {
+                    if (biometricSourceType == BiometricSourceType.FINGERPRINT) {
+                        mIsFingerprintRunning = running;
+                        updateIndicationAreaPadding();
+                    }
                 }
             };
 
