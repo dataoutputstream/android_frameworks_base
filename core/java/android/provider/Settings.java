@@ -5744,6 +5744,7 @@ public final class Settings {
         private static final Validator STATUS_BAR_QUICK_QS_PULLDOWN_VALIDATOR = ANY_INTEGER_VALIDATOR;
 
         /**
+
          * Whether footer text shows
          * @hide
          */
@@ -5849,6 +5850,12 @@ public final class Settings {
          * @hide
          */
         public static final String PULSE_ON_NEW_TRACKS = "pulse_on_new_tracks";
+
+         * FOD pressed state
+         * @hide
+         */
+        public static final String FOD_PRESSED_STATE = "fod_pressed_state";
+
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
