@@ -503,7 +503,8 @@ public class NotificationPanelView extends PanelView implements
         mDoubleTapGesture = new GestureDetector(mContext, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
-                StagUtils.switchScreenOff(context);
+
+                StagUtils.switchScreenOff(mContext);
                 // quick pulldown can trigger those values
                 // on double tap - so reset them
                 mQsExpandImmediate = false;
@@ -512,11 +513,11 @@ public class NotificationPanelView extends PanelView implements
                 return true;
             }
         });
-        mLockscreenDoubleTapToSleep = new GestureDetector(context,
+        mLockscreenDoubleTapToSleep = new GestureDetector(mContext,
                 new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
-                StagUtils.switchScreenOff(context);
+                StagUtils.switchScreenOff(mContext);
                 return true;
             }
         });
@@ -1296,7 +1297,7 @@ public class NotificationPanelView extends PanelView implements
                 && event.getY() < mStatusBarHeaderHeight) {
             mDoubleTapGesture.onTouchEvent(event);
         }
-        if (mIsLockscreenDoubleTapEnabled
+        if (mIsLockscreenDoubleTapEnabled && !mPulsing && !mDozing
                 && mBarState == StatusBarState.KEYGUARD) {
             mLockscreenDoubleTapToSleep.onTouchEvent(event);
         }

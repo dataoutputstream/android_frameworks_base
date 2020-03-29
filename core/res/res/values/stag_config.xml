@@ -19,6 +19,7 @@
     <string-array name="config_deviceKeyHandlerLibs" translatable="false">
     </string-array>
 
+    
     <!-- Hardware 'face' keys present on the device, stored as a bit field.
          This integer should equal the sum of the corresponding value for each
          of the following keys present:
@@ -30,8 +31,8 @@
          For example, a device with Home, Back and Menu keys would set this
          config to 7. -->
     <integer name="config_deviceHardwareKeys">0</integer>
-
-
+    
+    
     <!-- Names of the key handler classes -->
     <string-array name="config_deviceKeyHandlerClasses" translatable="false">
     </string-array>
@@ -133,5 +134,29 @@
 
     <!-- Whether the device supports Smart Pixels -->
     <bool name="config_enableSmartPixels">false</bool>
+
+    <!-- Whether device has physical tri state switch -->
+    <bool name="config_hasAlertSlider">false</bool>
+
+    <!-- The location of the devices physical tri state switch
+         0: Left side
+         1: Right side -->
+    <integer name="config_alertSliderLocation">0</integer>
+
+    <!-- Whether device supports variable refresh rate -->
+    <bool name="config_hasVariableRefreshRate">false</bool>
+
+    <!-- Whether device has screen with higher aspect ratio -->
+    <bool name="config_haveHigherAspectRatioScreen">false</bool>
+
+    <!-- Aspect ratio of screen -->
+    <item name="config_screenAspectRatio" format="float" type="dimen">2.1</item>
+
+    <!-- -1 means use same as config_screenBrightnessDoze -->
+    <integer name="config_screenBrightnessPulse">-1</integer>
+
+    <!-- Whether or not we should show vendor mismatch message -->
+    <bool name="config_show_vendor_mismatch_message">true</bool>
+
 
 </resources>

@@ -211,4 +211,6 @@
 
     <color name="volume_dialog_bottom_tint">#0D000000</color>
 
+    <color name="config_fodColorBackground">#20000000</color>
+
 </resources>

@@ -2678,6 +2678,7 @@ public final class Settings {
         @UnsupportedAppUsage
         public static String getStringForUser(ContentResolver resolver, String name,
                 int userHandle) {
+            android.util.SeempLog.record(android.util.SeempLog.getSeempGetApiIdFromValue(name));
             if (MOVED_TO_SECURE.contains(name)) {
                 Log.w(TAG, "Setting " + name + " has moved from android.provider.Settings.System"
                         + " to android.provider.Settings.Secure, returning read-only value.");
@@ -2706,6 +2707,7 @@ public final class Settings {
         @UnsupportedAppUsage
         public static boolean putStringForUser(ContentResolver resolver, String name, String value,
                 int userHandle) {
+            android.util.SeempLog.record(android.util.SeempLog.getSeempPutApiIdFromValue(name));
             if (MOVED_TO_SECURE.contains(name)) {
                 Log.w(TAG, "Setting " + name + " has moved from android.provider.Settings.System"
                         + " to android.provider.Settings.Secure, value is unchanged.");
@@ -5503,6 +5505,24 @@ public final class Settings {
 
         /**
          * whether to enable or disable vibration on succesful fingerprint auth
+         * Wheter to play notification sound and vibration if screen is ON
+         * 0 - never
+         * 1 - always
+         * @hide
+         */
+        public static final String NOTIFICATION_SOUND_VIB_SCREEN_ON = "notification_sound_vib_screen_on";
+
+        /**
+         * FOD recognizing animation
+         * @hide
+         */
+        public static final String FOD_RECOGNIZING_ANIMATION = "fod_recognizing_animation";
+
+        /**
+         * Refreshed screenshot animation
+         /**
+         * Change quick settings tiles animation style
+
          *
          * @hide
          */
@@ -5556,10 +5576,18 @@ public final class Settings {
          */
         public static final String OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE = "qs_layout_columns_landscape";
 
+
          /** @hide */
         private static final Validator OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE_VALIDATOR = ANY_INTEGER_VALIDATOR;
 
          /**
+
+        /** @hide */
+        private static final Validator FOD_ANIM_VALIDATOR =
+                new SettingsValidators.InclusiveIntegerRangeValidator(0, 18);
+
+        /**
+         * Gaming mode master switch
          * @hide
          */
         public static final String OMNI_QS_LAYOUT_COLUMNS = "qs_layout_columns";
@@ -5603,7 +5631,11 @@ public final class Settings {
         public static final String OMNI_QS_LAYOUT_ROWS = "qs_layout_rows";
 
         /** @hide */
+
         private static final Validator OMNI_QS_LAYOUT_ROWS_VALIDATOR = ANY_INTEGER_VALIDATOR;
+
+        private static final Validator FOD_ANIM_VALIDATOR2 
+                =new SettingsValidators.InclusiveIntegerRangeValidator(0, 18);
 
         /**
          * @hide
@@ -5614,6 +5646,9 @@ public final class Settings {
         private static final Validator OMNI_QS_QUICKBAR_COLUMNS_VALIDATOR =
                 ANY_INTEGER_VALIDATOR;
 
+        /** @hide */
+        private static final Validator FOD_ICON_VALIDATOR = ANY_STRING_VALIDATOR;
+
         /**
          * Whether to use partial screenshot when using volume keys
          * @hide
@@ -5623,8 +5658,21 @@ public final class Settings {
         /** @hide */
         private static final Validator SCREENSHOT_TYPE_VALIDATOR = ANY_INTEGER_VALIDATOR;
 
+        /** @hide */
+        private static final Validator FOD_PRESSED_STATE_VALIDATOR =
+                new SettingsValidators.InclusiveIntegerRangeValidator(0, 2);
+
         /**
+
          * Change volume up and down handlign based on rotation
+
+         * FOD recognizing animation picker
+         * @hide
+         */
+        public static final String FOD_ANIM = "fod_anim";
+
+        /**
+         * Accent Color
          * @hide
          */
         public static final String SWAP_VOLUME_BUTTONS = "swap_volume_buttons";
@@ -5644,7 +5692,19 @@ public final class Settings {
         public static final String HAPTIC_ON_ACTION_KEY = "haptic_on_action_key";
 
         /**
+
          * Whether the Home button works during call
+
+         * FOD icon picker
+         * @hide
+         */
+        public static final String FOD_ICON = "fod_icon";
+
+        /**
+         * Whether the battery light should be enabled (if hardware supports it)
+         * The value is boolean (1 or 0).
+          * User definable value of pulse notification screen brightness
+         *
          * @hide
          */
         public static final String ALLOW_INCALL_HOME = "allow_incall_home";
@@ -5713,6 +5773,15 @@ public final class Settings {
         /** @hide */
         private static final Validator STATUS_BAR_QUICK_QS_PULLDOWN_VALIDATOR = ANY_INTEGER_VALIDATOR;
 
+        /** @hide */
+        private static final Validator FOD_RECOGNIZING_ANIMATION_VALIDATOR =
+                BOOLEAN_VALIDATOR;
+
+        /**
+         * FOD pressed state
+         * @hide
+         */
+        public static final String FOD_PRESSED_STATE = "fod_pressed_state";
         /**
          * Whether footer text shows
          * @hide
@@ -5800,13 +5869,6 @@ public final class Settings {
         /** @hide */
         private static final Validator PULSE_AMBIENT_LIGHT_RIGHT_DURATION_VALIDATOR = ANY_INTEGER_VALIDATOR;
 
-        /**
-         * Wheter to play notification sound and vibration if screen is ON
-         * 0 - never
-         * 1 - always
-         * @hide
-         */
-        public static final String NOTIFICATION_SOUND_VIB_SCREEN_ON = "notification_sound_vib_screen_on";
 
         /**
          * Whether to vibrate on notifications
@@ -5966,6 +6028,10 @@ public final class Settings {
             PULSE_AMBIENT_LIGHT_AUTO_COLOR_RIGHT,
             PULSE_AMBIENT_LIGHT_COLOR_RIGHT,
             PULSE_AMBIENT_LIGHT_RIGHT_DURATION,
+            FOD_ICON,
+            FOD_PRESSED_STATE,
+            FOD_RECOGNIZING_ANIMATION,
+            FOD_ANIM,
         };
 
         /**
@@ -6357,6 +6423,10 @@ public final class Settings {
             VALIDATORS.put(PULSE_AMBIENT_LIGHT_AUTO_COLOR_RIGHT, PULSE_AMBIENT_LIGHT_AUTO_COLOR_RIGHT_VALIDATOR);
             VALIDATORS.put(PULSE_AMBIENT_LIGHT_COLOR_RIGHT, PULSE_AMBIENT_LIGHT_COLOR_RIGHT_VALIDATOR);
             VALIDATORS.put(PULSE_AMBIENT_LIGHT_RIGHT_DURATION, PULSE_AMBIENT_LIGHT_RIGHT_DURATION_VALIDATOR);
+            VALIDATORS.put(FOD_ICON, FOD_ICON_VALIDATOR);
+            VALIDATORS.put(FOD_PRESSED_STATE, FOD_PRESSED_STATE_VALIDATOR);
+            VALIDATORS.put(FOD_RECOGNIZING_ANIMATION, FOD_RECOGNIZING_ANIMATION_VALIDATOR);
+            VALIDATORS.put(FOD_ANIM, FOD_ANIM_VALIDATOR);
         }
 
         /**
