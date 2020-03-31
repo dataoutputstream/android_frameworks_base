@@ -892,10 +892,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Settings.System.ANBI_ENABLED_OPTION), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.OMNI_NAVIGATION_BAR_RECENTS), false, this,
-
-                    Settings.System.DOZE_TRIGGER_DOUBLETAP), false, this,
-                    UserHandle.USER_ALL);
+                    Settings.System.OMNI_NAVIGATION_BAR_RECENTS), false, this, UserHandle.USER_ALL);
             updateSettings();
         }
 
@@ -1612,6 +1609,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 boolean dockMinimized = mWindowManagerInternal.isMinimizedDock();
                 mDefaultDisplayPolicy.takeScreenshot(mScreenshotType, dockMinimized);
         }
+    }
     
 
     private final ScreenshotRunnable mScreenshotRunnable = new ScreenshotRunnable();
@@ -5452,7 +5450,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
                     mBootMsgDialog = new ProgressDialog(mContext, theme) {
                         // This dialog will consume all events coming in to
-                        // it, to avoid it trying to do things too early in boot.
+                        // it, to avoid it trying to do things too frameworks/base/services/core/java/com/android/server/policy/PhoneWindowManager.java:6348early in boot.
                         @Override public boolean dispatchKeyEvent(KeyEvent event) {
                             return true;
                         }
@@ -6349,3 +6347,4 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mHandler.sendMessageDelayed(msg, ViewConfiguration.getLongPressTimeout());
     }
 }
+
