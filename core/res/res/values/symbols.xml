@@ -923,6 +923,7 @@
   <java-symbol type="string" name="wifi_calling_off_summary" />
   <java-symbol type="string" name="wfc_mode_wifi_preferred_summary" />
   <java-symbol type="string" name="wfc_mode_cellular_preferred_summary" />
+  <java-symbol type="string" name="wfc_mode_ims_preferred_summary" />
   <java-symbol type="string" name="wfc_mode_wifi_only_summary" />
   <java-symbol type="string" name="policydesc_disableCamera" />
   <java-symbol type="string" name="policydesc_encryptedStorage" />
@@ -2241,6 +2242,7 @@
   <java-symbol type="string" name="config_defaultNetworkScorerPackageName" />
   <java-symbol type="string" name="config_persistentDataPackageName" />
   <java-symbol type="string" name="config_deviceConfiguratorPackageName" />
+  <java-symbol type="string" name="config_optionalPackageVerifierName" />
 
   <java-symbol type="layout" name="resolver_list" />
   <java-symbol type="id" name="resolver_list" />
@@ -2346,14 +2348,20 @@
 
   <!-- From Phone -->
   <java-symbol type="bool" name="config_built_in_sip_phone" />
+  <java-symbol type="id" name="pip_window" />
+  <java-symbol type="id" name="minimize_window" />
   <java-symbol type="id" name="maximize_window" />
   <java-symbol type="id" name="close_window" />
   <java-symbol type="layout" name="decor_caption" />
   <java-symbol type="drawable" name="decor_caption_title_focused" />
   <java-symbol type="drawable" name="decor_close_button_dark" />
   <java-symbol type="drawable" name="decor_close_button_light" />
+  <java-symbol type="drawable" name="decor_minimize_button_dark" />
+  <java-symbol type="drawable" name="decor_minimize_button_light" />
   <java-symbol type="drawable" name="decor_maximize_button_dark" />
   <java-symbol type="drawable" name="decor_maximize_button_light" />
+  <java-symbol type="drawable" name="decor_pip_button_dark" />
+  <java-symbol type="drawable" name="decor_pip_button_light" />
   <java-symbol type="color" name="decor_button_dark_color" />
   <java-symbol type="color" name="decor_button_light_color" />
   <java-symbol type="array" name="unloggable_phone_numbers" />
@@ -3862,4 +3870,17 @@
   <java-symbol type="bool" name="config_pdp_retry_for_29_33_55_enabled" />
 
   <java-symbol type="bool" name="reset_geo_fencing_check_after_boot_or_apm" />
+
+
+  <!-- Whether to use scaled brightness (set -1 to disable) -->
+  <java-symbol type="integer" name="config_useScaleBrightness" />
+
+    <!-- Post reset runnable for all clients -->
+    <java-symbol type="bool" name="config_fingerprintPostResetRunnableForAllClients" />
+
+  <java-symbol type="integer" name="config_sms_authorization_timeout_ms" />
+  <java-symbol type="bool" name="config_sms_authorization_enabled" />
+  
+  <java-symbol type="integer" name="config_deviceHardwareWakeKeys" />
+
 </resources>

@@ -2697,6 +2697,18 @@ public class Intent implements Parcelable, Cloneable {
     public static final String ACTION_PACKAGE_NEEDS_VERIFICATION = "android.intent.action.PACKAGE_NEEDS_VERIFICATION";
 
     /**
+     * Broadcast Action: Sent to the optional package verifier when a package
+     * needs to be verified. The data contains the package URI.
+     * <p class="note">
+     * This is a protected intent.
+     * </p>
+     *
+     * @hide
+     */
+    @SdkConstant(SdkConstantType.BROADCAST_INTENT_ACTION)
+    public static final String ACTION_PACKAGE_NEEDS_OPTIONAL_VERIFICATION = "com.qualcomm.qti.intent.action.PACKAGE_NEEDS_OPTIONAL_VERIFICATION";
+
+    /**
      * Broadcast Action: Sent to the system package verifier when a package is
      * verified. The data contains the package URI.
      * <p class="note">
@@ -4428,6 +4440,7 @@ public class Intent implements Parcelable, Cloneable {
     public static final String ACTION_VIEW_LOCUS = "android.intent.action.VIEW_LOCUS";
 
     /**
+
      * Broadcast action: notify the system that the user has performed a gesture on the screen
      * to launch the camera. Broadcast should be protected to receivers holding the
      * {@link Manifest.permission#STATUS_BAR_SERVICE} permission.
@@ -4435,6 +4448,21 @@ public class Intent implements Parcelable, Cloneable {
      */
     public static final String ACTION_SCREEN_CAMERA_GESTURE =
             "android.intent.action.SCREEN_CAMERA_GESTURE";
+    /**
+     * Broadcast action: Camera satus Changed
+     * @hide
+     */
+    public static final String ACTION_CAMERA_STATUS_CHANGED =
+            "android.intent.action.CAMERA_STATUS_CHANGED";
+
+    /**
+     * This field is part of the intent {@link #ACTION_CAMERA_STATUS_CHANGED}.
+     * Intent extra field for the state of changed camera state
+     * @hide
+     */
+    public static final String EXTRA_CAMERA_STATE =
+            "android.intent.extra.CAMERA_STATE";
+
 
     // ---------------------------------------------------------------------
     // ---------------------------------------------------------------------
@@ -10810,6 +10838,7 @@ public class Intent implements Parcelable, Cloneable {
                 case ACTION_MEDIA_SCANNER_FINISHED:
                 case ACTION_MEDIA_SCANNER_SCAN_FILE:
                 case ACTION_PACKAGE_NEEDS_VERIFICATION:
+                case ACTION_PACKAGE_NEEDS_OPTIONAL_VERIFICATION:
                 case ACTION_PACKAGE_VERIFIED:
                 case ACTION_PACKAGE_ENABLE_ROLLBACK:
                     // Ignore legacy actions

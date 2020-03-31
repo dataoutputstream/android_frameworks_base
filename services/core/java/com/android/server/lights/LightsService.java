@@ -38,6 +38,7 @@ public class LightsService extends SystemService {
 
         private final IBinder mDisplayToken;
         private final int mSurfaceControlMaximumBrightness;
+        private final int mUseScaleBrightness;
 
         private LightImpl(Context context, int id) {
             mId = id;
@@ -55,6 +56,7 @@ public class LightsService extends SystemService {
                 }
             }
             mSurfaceControlMaximumBrightness = maximumBrightness;
+            mUseScaleBrightness = context.getResources().getInteger(com.android.internal.R.integer.config_useScaleBrightness);
         }
 
         @Override
@@ -88,7 +90,11 @@ public class LightsService extends SystemService {
                             (float) brightness / mSurfaceControlMaximumBrightness);
                 } else {
                     int color = brightness & 0x000000ff;
-                    color = 0xff000000 | (color << 16) | (color << 8) | color;
+                    if (mUseScaleBrightness > 0) {
+                        color = brightness * mUseScaleBrightness / 255;
+                    } else {
+                        color = 0xff000000 | (color << 16) | (color << 8) | color;
+                    }
                     setLightLocked(color, LIGHT_FLASH_NONE, 0, 0, brightnessMode);
                 }
             }

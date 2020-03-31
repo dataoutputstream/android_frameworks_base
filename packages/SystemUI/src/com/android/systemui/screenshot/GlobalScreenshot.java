@@ -1298,3 +1298,4 @@ class GlobalScreenshot {
         nm.cancel(SystemMessage.NOTE_GLOBAL_SCREENSHOT);
     }
 }
+

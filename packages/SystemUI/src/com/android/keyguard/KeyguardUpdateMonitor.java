@@ -96,6 +96,7 @@ import com.android.internal.telephony.PhoneConstants;
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.internal.util.Preconditions;
 import com.android.internal.widget.LockPatternUtils;
+import com.android.keyguard.KeyguardSecurityModel.SecurityMode;
 import com.android.settingslib.WirelessUtils;
 import com.android.systemui.R;
 import com.android.systemui.shared.system.ActivityManagerWrapper;
@@ -228,7 +229,6 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener {
     private boolean mSecureCameraLaunched;
     @VisibleForTesting
     protected boolean mTelephonyCapable;
-    protected boolean mPulsing;
 
     // Device provisioning state
     private boolean mDeviceProvisioned;
@@ -255,6 +255,7 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener {
     private int mFingerprintRunningState = BIOMETRIC_STATE_STOPPED;
     private int mFaceRunningState = BIOMETRIC_STATE_STOPPED;
     private LockPatternUtils mLockPatternUtils;
+    private SecurityMode mCurrentSecurityMode = SecurityMode.Invalid;
     private final IDreamManager mDreamManager;
     private boolean mIsDreaming;
     private final DevicePolicyManager mDevicePolicyManager;
@@ -896,6 +897,14 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener {
                 cb.onFaceUnlockStateChanged(running, userId);
             }
         }
+    }
+
+    public SecurityMode getSecurityMode() {
+        return mCurrentSecurityMode;
+    }
+
+    public void setSecurityMode(SecurityMode securityMode) {
+        mCurrentSecurityMode = securityMode;
     }
 
     public boolean isFaceUnlockRunning(int userId) {
@@ -2373,7 +2382,6 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener {
         callback.onClockVisibilityChanged();
         callback.onKeyguardVisibilityChangedRaw(mKeyguardIsVisible);
         callback.onTelephonyCapable(mTelephonyCapable);
-        callback.onPulsing(mPulsing);
         for (Entry<Integer, SimData> data : mSimDatas.entrySet()) {
             final SimData state = data.getValue();
             callback.onSimStateChanged(state.subId, state.slotId, state.simState);
@@ -2716,16 +2724,5 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener {
             pw.println("    enabledByUser=" + mFaceSettingEnabledForUser.get(userId));
             pw.println("    mSecureCameraLaunched=" + mSecureCameraLaunched);
         }
-    }
-
-    public boolean setPulsing(boolean pulsing) {
-        mPulsing = pulsing;
-        for (int i = 0; i < mCallbacks.size(); i++) {
-            KeyguardUpdateMonitorCallback cb = mCallbacks.get(i).get();
-            if (cb != null) {
-                cb.onPulsing(mPulsing);
-            }
-        }
-        return mPulsing;
     }
 }
