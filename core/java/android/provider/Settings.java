@@ -5896,10 +5896,33 @@ public final class Settings {
         public static final String ADAPTIVE_PLAYBACK_ENABLED = "adaptive_playback_enabled";
 
         /**
+
          * Adaptive playback's timeout in ms
          * @hide
          */
         public static final String ADAPTIVE_PLAYBACK_TIMEOUT = "adaptive_playback_timeout";
+
+        /**
+         * Whether to turn on the notification light when the state of the front camera changes
+         * 0 = 0ff, 1 = on
+         */
+        public static final String POPUP_CAMERA_LED_ENABLED = "popup_camera_led_enabled";
+
+        /** @hide */
+        public static final Validator POPUP_CAMERA_LED_ENABLED_VALIDATOR =
+                BOOLEAN_VALIDATOR;
+
+        /**
+         * Whether battery led is temporarily blocked
+         * 0 = 0ff, 1 = on
+         */
+        public static final String POPUP_CAMERA_BATTERY_LED_BLOCKED = "popup_camera_battery_led_blocked";
+
+        /** @hide */
+        public static final Validator POPUP_CAMERA_BATTERY_LED_BLOCKED_VALIDATOR =
+                BOOLEAN_VALIDATOR;
+
+   
 
         /**
          * Which Vibration Pattern to use
@@ -6269,6 +6292,9 @@ public final class Settings {
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_AUTO_COLOR_RIGHT);
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_COLOR_RIGHT);
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_RIGHT_DURATION);
+            PRIVATE_SETTINGS.add(POPUP_CAMERA_LED_ENABLED);
+            PRIVATE_SETTINGS.add(POPUP_CAMERA_BATTERY_LED_BLOCKED);
+
         }
 
         /**
@@ -6457,6 +6483,17 @@ public final class Settings {
             VALIDATORS.put(FOD_PRESSED_STATE, FOD_PRESSED_STATE_VALIDATOR);
             VALIDATORS.put(FOD_RECOGNIZING_ANIMATION, FOD_RECOGNIZING_ANIMATION_VALIDATOR);
             VALIDATORS.put(FOD_ANIM, FOD_ANIM_VALIDATOR);
+            VALIDATORS.put(TEXT_CLOCK_ALIGNMENT, TEXT_CLOCK_ALIGNMENT_VALIDATOR);
+            VALIDATORS.put(TEXT_CLOCK_PADDING, TEXT_CLOCK_PADDING_VALIDATOR);
+            VALIDATORS.put(QS_PANEL_BG_USE_NEW_TINT, QS_PANEL_BG_USE_NEW_TINT_VALIDATOR);
+            VALIDATORS.put(INCALL_FEEDBACK_VIBRATE, INCALL_FEEDBACK_VIBRATE_VALIDATOR);
+            VALIDATORS.put(BACK_GESTURE_BLOCK_IME,BACK_GESTURE_BLOCK_IME_VALIDATOR);
+            VALIDATORS.put(ASPECT_RATIO_APPS_ENABLED, ASPECT_RATIO_APPS_ENABLED_VALIDATOR);
+            VALIDATORS.put(ASPECT_RATIO_APPS_LIST, ASPECT_RATIO_APPS_LIST_VALIDATOR);
+            VALIDATORS.put(LOCKSCREEN_MEDIA_METADATA,LOCKSCREEN_MEDIA_METADATA_VALIDATOR);
+            VALIDATORS.put(POPUP_CAMERA_LED_ENABLED, POPUP_CAMERA_LED_ENABLED_VALIDATOR);
+            VALIDATORS.put(POPUP_CAMERA_BATTERY_LED_BLOCKED, POPUP_CAMERA_BATTERY_LED_BLOCKED_VALIDATOR);
+
         }
 
         /**
