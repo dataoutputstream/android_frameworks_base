@@ -3894,6 +3894,10 @@
     
     <!-- Whether to turn on the notification light when the state of the front camera changes -->
     <java-symbol type="bool" name="config_popUpNotificationLight" />
+    
+    <!-- Whether to allow process with media UID to access CameraServiceProxy -->
+    <java-symbol type="bool" name="config_allowMediaUidForCameraServiceProxy" />
+
 
 
 
