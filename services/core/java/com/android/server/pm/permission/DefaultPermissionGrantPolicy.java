@@ -844,7 +844,12 @@ public final class DefaultPermissionGrantPolicy {
 
         // Lawnchair
         grantSystemFixedPermissionsToSystemPackage("ch.deletescape.lawnchair.ci", userId, STORAGE_PERMISSIONS);
+        
+        //MicroG Vanced
+        grantSystemFixedPermissionsToSystemPackage("com.mgoogle.android.gms", userId, CONTACTS_PERMISSIONS,
+                PHONE_PERMISSIONS, STORAGE_PERMISSIONS, ALWAYS_LOCATION_PERMISSIONS);
     }
+    
 
     private String getDefaultSystemHandlerActivityPackageForCategory(String category, int userId) {
         return getDefaultSystemHandlerActivityPackage(
