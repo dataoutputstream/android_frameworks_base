@@ -137,7 +137,7 @@ public class DozeScreenBrightness extends BroadcastReceiver implements DozeMachi
         try {
             if (mRegistered) {
                 mLastSensorValue = (int) event.values[0];
-                updateBrightnessAndReady(false /* force */);
+                updateBrightnessAndReady(true /* force */);
             }
         } finally {
             Trace.endSection();
