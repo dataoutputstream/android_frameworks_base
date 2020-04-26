@@ -4326,5 +4326,6 @@
     <bool name="config_popUpNotificationLight">false</bool>
     
      <bool name="config_allowMediaUidForCameraServiceProxy">false</bool>
+     
 
 </resources>
