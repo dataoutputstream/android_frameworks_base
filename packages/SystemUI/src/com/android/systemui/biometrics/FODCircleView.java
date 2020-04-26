@@ -82,6 +82,7 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
     private boolean mIsKeyguard;
     private boolean mIsShowing;
     private boolean mIsCircleShowing;
+    private boolean mIsAuthenticated;
 
     private Handler mHandler;
 
@@ -177,6 +178,13 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
             } else {
                 hide();
             }
+        }
+        
+        
+        @Override
+        public void onBiometricAuthenticated(int userId, BiometricSourceType biometricSourceType) {
+            super.onBiometricAuthenticated(userId, biometricSourceType);
+            mIsAuthenticated = true;
         }
 
         @Override
@@ -387,6 +395,9 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
     }
 
     public void showCircle() {
+        if (mIsAuthenticated) {
+            return;
+        }
         mIsCircleShowing = true;
 
         setKeepScreenOn(true);
