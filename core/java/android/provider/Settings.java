@@ -6229,10 +6229,10 @@ public final class Settings {
             LOCKSCREEN_INFO,
             TEXT_CLOCK_ALIGNMENT,
             TEXT_CLOCK_PADDING,
-            QS_BLUR
-            QS_BLUR_ALPHA
+            QS_BLUR,
+            QS_BLUR_ALPHA,
             QS_BLUR_INTENSITY
-        };
+            };
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to

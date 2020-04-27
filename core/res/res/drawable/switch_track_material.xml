@@ -25,4 +25,4 @@
             <size android:height="14dp" />
         </shape>
     </item>
-</layer-list>
+</selector>

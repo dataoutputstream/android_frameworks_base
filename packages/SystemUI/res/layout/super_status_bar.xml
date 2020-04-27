@@ -51,7 +51,6 @@
         sysui:ignoreRightInset="true"
         />
 
-<<<<<<< HEAD
     <com.android.systemui.statusbar.VisualizerView
         android:id="@+id/visualizerview"
         android:gravity="bottom"
