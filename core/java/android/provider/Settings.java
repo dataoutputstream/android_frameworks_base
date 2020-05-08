@@ -6263,7 +6263,7 @@ public final class Settings {
             TEXT_CLOCK_PADDING,
             QS_BLUR,
             QS_BLUR_ALPHA,
-            QS_BLUR_INTENSITY
+            QS_BLUR_INTENSITY,
             HIDE_SMART_REPLIES,
             QS_PANEL_BG_USE_NEW_TINT,
         };
