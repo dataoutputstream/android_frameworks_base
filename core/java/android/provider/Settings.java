@@ -6089,6 +6089,15 @@ public final class Settings {
          */
         private static final Validator QS_BLUR_INTENSITY_VALIDATOR = ANY_INTEGER_VALIDATOR;
         public static final String QS_BLUR_INTENSITY = "qs_blur_intensity";
+        
+        /**
+         * FaceUnlock
+         * @hide
+         */
+        public static final String FACE_UF = "face_uf";
+
+        /** @hide */
+        private static final Validator FACE_UF_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /** 
         @hide 
@@ -6264,6 +6273,7 @@ public final class Settings {
             QS_BLUR,
             QS_BLUR_ALPHA,
             QS_BLUR_INTENSITY,
+            FACE_UF,
             HIDE_SMART_REPLIES,
             QS_PANEL_BG_USE_NEW_TINT,
         };
@@ -6482,6 +6492,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(TEXT_CLOCK_PADDING);
             PRIVATE_SETTINGS.add(QS_BLUR);
             PRIVATE_SETTINGS.add(QS_BLUR_ALPHA);
+            PRIVATE_SETTINGS.add(FACE_UF);
             PRIVATE_SETTINGS.add(HIDE_SMART_REPLIES);
             PRIVATE_SETTINGS.add(QS_PANEL_BG_USE_NEW_TINT);
         }
@@ -6683,6 +6694,7 @@ public final class Settings {
             VALIDATORS.put(QS_BLUR, QS_BLUR_VALIDATOR);
             VALIDATORS.put(QS_BLUR_ALPHA, QS_BLUR_ALPHA_VALIDATOR);
             VALIDATORS.put(QS_BLUR_INTENSITY, QS_BLUR_INTENSITY_VALIDATOR);
+            VALIDATORS.put(FACE_UF, FACE_UF_VALIDATOR);
             VALIDATORS.put(HIDE_SMART_REPLIES, HIDE_SMART_REPLIES_VALIDATOR);
             VALIDATORS.put(QS_PANEL_BG_USE_NEW_TINT, QS_PANEL_BG_USE_NEW_TINT_VALIDATOR);
         }
@@ -6860,6 +6872,8 @@ public final class Settings {
          */
         @Deprecated
         public static final String USE_GOOGLE_MAIL = Global.USE_GOOGLE_MAIL;
+        
+        
 
        /**
          * @deprecated Use
