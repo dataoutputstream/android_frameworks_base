@@ -5025,6 +5025,16 @@ public final class Settings {
         /** @hide */
         private static final Validator OMNI_BACK_GESTURE_HEIGHT_VALIDATOR =
                 ANY_INTEGER_VALIDATOR;
+                
+         /**
+          * Volume dialog timeout
+          * @hide
+          */
+         public static final String VOLUME_DIALOG_TIMEOUT = "volume_dialog_timeout";
+
+         /** @hide */
+         private static final Validator VOLUME_DIALOG_TIMEOUT_VALIDATOR =
+                new SettingsValidators.InclusiveIntegerRangeValidator(500, 10000);;
 
         /**
          *  Enable statusbar double tap gesture on to put device to sleep
@@ -6199,6 +6209,7 @@ public final class Settings {
             STATUSBAR_CLOCK_DATE_STYLE,
             STATUSBAR_CLOCK_DATE_FORMAT,
             STATUSBAR_CLOCK_DATE_POSITION,
+            VOLUME_DIALOG_TIMEOUT,
             BATTERY_LIGHT_ENABLED,
             BATTERY_LIGHT_ALLOW_ON_DND,
             BATTERY_LIGHT_LOW_BLINKING,
@@ -6418,6 +6429,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_STYLE);
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_FORMAT);
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_POSITION);
+            PRIVATE_SETTINGS.add(VOLUME_DIALOG_TIMEOUT);
             PRIVATE_SETTINGS.add(BATTERY_LIGHT_ENABLED);
             PRIVATE_SETTINGS.add(BATTERY_LIGHT_ALLOW_ON_DND);
             PRIVATE_SETTINGS.add(BATTERY_LIGHT_LOW_BLINKING);
@@ -6611,6 +6623,7 @@ public final class Settings {
             VALIDATORS.put(STATUSBAR_CLOCK_DATE_STYLE, STATUSBAR_CLOCK_DATE_STYLE_VALIDATOR);
             VALIDATORS.put(STATUSBAR_CLOCK_DATE_FORMAT, STATUSBAR_CLOCK_DATE_FORMAT_VALIDATOR);
             VALIDATORS.put(STATUSBAR_CLOCK_DATE_POSITION, STATUSBAR_CLOCK_DATE_POSITION_VALIDATOR);
+             VALIDATORS.put(VOLUME_DIALOG_TIMEOUT,VOLUME_DIALOG_TIMEOUT_VALIDATOR);
             VALIDATORS.put(BATTERY_LIGHT_ENABLED, BATTERY_LIGHT_ENABLED_VALIDATOR);
             VALIDATORS.put(BATTERY_LIGHT_ALLOW_ON_DND, BATTERY_LIGHT_ALLOW_ON_DND_VALIDATOR);
             VALIDATORS.put(BATTERY_LIGHT_LOW_BLINKING, BATTERY_LIGHT_LOW_BLINKING_VALIDATOR);
