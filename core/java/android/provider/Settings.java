@@ -10351,15 +10351,6 @@ public final class Settings {
                 BOOLEAN_VALIDATOR;
         
         /**
-         * FaceUnlock
-         * @hide
-         */
-        public static final String FACE_UF = "face_uf";
-
-        /** @hide */
-        private static final Validator FACE_UF_VALIDATOR = BOOLEAN_VALIDATOR;
-        
-        /**
          * Whether or not a user should re enroll their face.
          *
          * Face unlock re enroll.
@@ -11193,7 +11184,6 @@ public final class Settings {
             FACE_UNLOCK_DISMISSES_KEYGUARD,
             FACE_UNLOCK_APP_ENABLED,
             FACE_UNLOCK_ALWAYS_REQUIRE_CONFIRMATION,
-            FACE_UF,
             VR_DISPLAY_MODE,
             NOTIFICATION_BADGING,
             NOTIFICATION_DISMISS_RTL,
@@ -11376,8 +11366,6 @@ public final class Settings {
             VALIDATORS.put(FACE_UNLOCK_APP_ENABLED, FACE_UNLOCK_APP_ENABLED_VALIDATOR);
             VALIDATORS.put(FACE_UNLOCK_ALWAYS_REQUIRE_CONFIRMATION,
                     FACE_UNLOCK_ALWAYS_REQUIRE_CONFIRMATION_VALIDATOR);
-            VALIDATORS.put(FACE_UF,
-                    FACE_UF_VALIDATOR);
             VALIDATORS.put(ASSIST_GESTURE_ENABLED, ASSIST_GESTURE_ENABLED_VALIDATOR);
             VALIDATORS.put(ASSIST_GESTURE_SILENCE_ALERTS_ENABLED,
                     ASSIST_GESTURE_SILENCE_ALERTS_ENABLED_VALIDATOR);
