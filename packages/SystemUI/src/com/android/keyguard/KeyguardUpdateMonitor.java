@@ -1528,8 +1528,8 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener {
                 R.bool.config_fingerprintWakeAndUnlock);
        // mFaceAuthOnlyOnSecurityView = mContext.getResources().getBoolean(
                // R.bool.config_faceAuthOnlyOnSecurityView);
-        mFaceAuthOnlyOnSecurityView = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.FACE_UF, 1) != 0;
+        mFaceAuthOnlyOnSecurityView = Settings.Secure.getInt(mContext.getContentResolver(),
+                Settings.Secure.FACE_UF, 1) != 0;
                 
 
         // Since device can't be un-provisioned, we only need to register a content observer

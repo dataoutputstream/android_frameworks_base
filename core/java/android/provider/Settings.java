@@ -6090,14 +6090,6 @@ public final class Settings {
         private static final Validator QS_BLUR_INTENSITY_VALIDATOR = ANY_INTEGER_VALIDATOR;
         public static final String QS_BLUR_INTENSITY = "qs_blur_intensity";
         
-        /**
-         * FaceUnlock
-         * @hide
-         */
-        public static final String FACE_UF = "face_uf";
-
-        /** @hide */
-        private static final Validator FACE_UF_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /** 
         @hide 
@@ -6273,7 +6265,6 @@ public final class Settings {
             QS_BLUR,
             QS_BLUR_ALPHA,
             QS_BLUR_INTENSITY,
-            FACE_UF,
             HIDE_SMART_REPLIES,
             QS_PANEL_BG_USE_NEW_TINT,
         };
@@ -6492,7 +6483,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(TEXT_CLOCK_PADDING);
             PRIVATE_SETTINGS.add(QS_BLUR);
             PRIVATE_SETTINGS.add(QS_BLUR_ALPHA);
-            PRIVATE_SETTINGS.add(FACE_UF);
             PRIVATE_SETTINGS.add(HIDE_SMART_REPLIES);
             PRIVATE_SETTINGS.add(QS_PANEL_BG_USE_NEW_TINT);
         }
@@ -6694,7 +6684,6 @@ public final class Settings {
             VALIDATORS.put(QS_BLUR, QS_BLUR_VALIDATOR);
             VALIDATORS.put(QS_BLUR_ALPHA, QS_BLUR_ALPHA_VALIDATOR);
             VALIDATORS.put(QS_BLUR_INTENSITY, QS_BLUR_INTENSITY_VALIDATOR);
-            VALIDATORS.put(FACE_UF, FACE_UF_VALIDATOR);
             VALIDATORS.put(HIDE_SMART_REPLIES, HIDE_SMART_REPLIES_VALIDATOR);
             VALIDATORS.put(QS_PANEL_BG_USE_NEW_TINT, QS_PANEL_BG_USE_NEW_TINT_VALIDATOR);
         }
@@ -10347,7 +10336,16 @@ public final class Settings {
 
         private static final Validator FACE_UNLOCK_ALWAYS_REQUIRE_CONFIRMATION_VALIDATOR =
                 BOOLEAN_VALIDATOR;
+        
+        /**
+         * FaceUnlock
+         * @hide
+         */
+        public static final String FACE_UF = "face_uf";
 
+        /** @hide */
+        private static final Validator FACE_UF_VALIDATOR = BOOLEAN_VALIDATOR;
+        
         /**
          * Whether or not a user should re enroll their face.
          *
@@ -11182,6 +11180,7 @@ public final class Settings {
             FACE_UNLOCK_DISMISSES_KEYGUARD,
             FACE_UNLOCK_APP_ENABLED,
             FACE_UNLOCK_ALWAYS_REQUIRE_CONFIRMATION,
+            FACE_UF,
             VR_DISPLAY_MODE,
             NOTIFICATION_BADGING,
             NOTIFICATION_DISMISS_RTL,
@@ -11364,6 +11363,8 @@ public final class Settings {
             VALIDATORS.put(FACE_UNLOCK_APP_ENABLED, FACE_UNLOCK_APP_ENABLED_VALIDATOR);
             VALIDATORS.put(FACE_UNLOCK_ALWAYS_REQUIRE_CONFIRMATION,
                     FACE_UNLOCK_ALWAYS_REQUIRE_CONFIRMATION_VALIDATOR);
+            VALIDATORS.put(FACE_UF,
+                    FACE_UF_VALIDATOR);
             VALIDATORS.put(ASSIST_GESTURE_ENABLED, ASSIST_GESTURE_ENABLED_VALIDATOR);
             VALIDATORS.put(ASSIST_GESTURE_SILENCE_ALERTS_ENABLED,
                     ASSIST_GESTURE_SILENCE_ALERTS_ENABLED_VALIDATOR);

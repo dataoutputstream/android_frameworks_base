@@ -427,6 +427,7 @@ public class BiometricService extends SystemService {
         private static final boolean DEFAULT_KEYGUARD_ENABLED = true;
         private static final boolean DEFAULT_APP_ENABLED = true;
         private static final boolean DEFAULT_ALWAYS_REQUIRE_CONFIRMATION = false;
+        private static final boolean DEFAULT_ALWAYS_REQUIRE_SWIPE = true;
 
         private final Uri FACE_UNLOCK_KEYGUARD_ENABLED =
                 Settings.Secure.getUriFor(Settings.Secure.FACE_UNLOCK_KEYGUARD_ENABLED);
@@ -434,12 +435,15 @@ public class BiometricService extends SystemService {
                 Settings.Secure.getUriFor(Settings.Secure.FACE_UNLOCK_APP_ENABLED);
         private final Uri FACE_UNLOCK_ALWAYS_REQUIRE_CONFIRMATION =
                 Settings.Secure.getUriFor(Settings.Secure.FACE_UNLOCK_ALWAYS_REQUIRE_CONFIRMATION);
+         private final Uri FACE_UF =
+                Settings.Secure.getUriFor(Settings.Secure.FACE_UF);
 
         private final ContentResolver mContentResolver;
 
         private Map<Integer, Boolean> mFaceEnabledOnKeyguard = new HashMap<>();
         private Map<Integer, Boolean> mFaceEnabledForApps = new HashMap<>();
         private Map<Integer, Boolean> mFaceAlwaysRequireConfirmation = new HashMap<>();
+         private Map<Integer, Boolean> mFaceFast = new HashMap<>();
 
         /**
          * Creates a content observer.
@@ -463,6 +467,10 @@ public class BiometricService extends SystemService {
                     this /* observer */,
                     UserHandle.USER_ALL);
             mContentResolver.registerContentObserver(FACE_UNLOCK_ALWAYS_REQUIRE_CONFIRMATION,
+                    false /* notifyForDescendents */,
+                    this /* observer */,
+                    UserHandle.USER_ALL);
+            mContentResolver.registerContentObserver(FACE_UF,
                     false /* notifyForDescendents */,
                     this /* observer */,
                     UserHandle.USER_ALL);
@@ -492,6 +500,12 @@ public class BiometricService extends SystemService {
                                 Settings.Secure.FACE_UNLOCK_ALWAYS_REQUIRE_CONFIRMATION,
                                 DEFAULT_ALWAYS_REQUIRE_CONFIRMATION ? 1 : 0 /* default */,
                                 userId) != 0);
+            }else if (FACE_UF.equals(uri)) {
+                mFaceFast.put(userId, Settings.Secure.getIntForUser(
+                                mContentResolver,
+                                Settings.Secure.FACE_UF,
+                                DEFAULT_ALWAYS_REQUIRE_SWIPE ? 1 : 0 /* default */,
+                                userId) != 0);
             }
         }
 
@@ -515,6 +529,12 @@ public class BiometricService extends SystemService {
                 onChange(true /* selfChange */, FACE_UNLOCK_ALWAYS_REQUIRE_CONFIRMATION, userId);
             }
             return mFaceAlwaysRequireConfirmation.get(userId);
+        }
+        boolean getFaceFast(int userId) {
+            if (!mFaceFast.containsKey(userId)) {
+                onChange(true /* selfChange */, FACE_UF, userId);
+            }
+            return mFaceFast.get(userId);
         }
 
         void notifyEnabledOnKeyguardCallbacks(int userId) {
@@ -1545,7 +1565,7 @@ public class BiometricService extends SystemService {
             if ((modality & TYPE_FACE) != 0) {
                 // Check if the user has forced confirmation to be required in Settings.
                 requireConfirmation = requireConfirmation
-                        || mSettingObserver.getFaceAlwaysRequireConfirmation(userId);
+                        || mSettingObserver.getFaceAlwaysRequireConfirmation(userId) || mSettingObserver.getFaceFast(userId);
             }
             // Generate random cookies to pass to the services that should prepare to start
             // authenticating. Store the cookie here and wait for all services to "ack"

@@ -2288,6 +2288,9 @@ public class StatsCompanionService extends IStatsCompanionService.Stub {
                         Settings.Secure.FACE_UNLOCK_ALWAYS_REQUIRE_CONFIRMATION, 0,
                         userId) != 0);
                 e.writeBoolean(Settings.Secure.getIntForUser(mContext.getContentResolver(),
+                        Settings.Secure.FACE_UF, 0,
+                        userId) != 0);
+                e.writeBoolean(Settings.Secure.getIntForUser(mContext.getContentResolver(),
                         Settings.Secure.FACE_UNLOCK_DIVERSITY_REQUIRED, 1,
                         userId) != 0);
 
