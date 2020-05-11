@@ -5895,7 +5895,6 @@ public final class Settings {
         public static final String ADAPTIVE_PLAYBACK_ENABLED = "adaptive_playback_enabled";
 
         /**
-
          * Adaptive playback's timeout in ms
          * @hide
          */
@@ -5917,15 +5916,7 @@ public final class Settings {
         public static final Validator POPUP_CAMERA_LED_ENABLED_VALIDATOR =
                 BOOLEAN_VALIDATOR;
 
-        /**
-         * Whether battery led is temporarily blocked
-         * 0 = 0ff, 1 = on
-         */
-        public static final String POPUP_CAMERA_BATTERY_LED_BLOCKED = "popup_camera_battery_led_blocked";
 
-        /** @hide */
-        public static final Validator POPUP_CAMERA_BATTERY_LED_BLOCKED_VALIDATOR =
-                BOOLEAN_VALIDATOR;
 
    
 
@@ -6496,8 +6487,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_AUTO_COLOR_RIGHT);
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_COLOR_RIGHT);
             PRIVATE_SETTINGS.add(PULSE_AMBIENT_LIGHT_RIGHT_DURATION);
-            PRIVATE_SETTINGS.add(POPUP_CAMERA_LED_ENABLED);
-            PRIVATE_SETTINGS.add(POPUP_CAMERA_BATTERY_LED_BLOCKED);
             PRIVATE_SETTINGS.add(LOCKSCREEN_CLOCK);
             PRIVATE_SETTINGS.add(LOCKSCREEN_INFO);
             PRIVATE_SETTINGS.add(TEXT_CLOCK_ALIGNMENT);
@@ -6698,8 +6687,6 @@ public final class Settings {
             VALIDATORS.put(FOD_RECOGNIZING_ANIMATION, FOD_RECOGNIZING_ANIMATION_VALIDATOR);
             VALIDATORS.put(FOD_ANIM, FOD_ANIM_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_MEDIA_METADATA,LOCKSCREEN_MEDIA_METADATA_VALIDATOR);
-            VALIDATORS.put(POPUP_CAMERA_LED_ENABLED, POPUP_CAMERA_LED_ENABLED_VALIDATOR);
-            VALIDATORS.put(POPUP_CAMERA_BATTERY_LED_BLOCKED, POPUP_CAMERA_BATTERY_LED_BLOCKED_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_CLOCK, LOCKSCREEN_CLOCK_VALIDATOR);
             VALIDATORS.put(LOCKSCREEN_INFO, LOCKSCREEN_INFO_VALIDATOR);
             VALIDATORS.put(TEXT_CLOCK_ALIGNMENT, TEXT_CLOCK_ALIGNMENT_VALIDATOR);
