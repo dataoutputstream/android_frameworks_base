@@ -1368,11 +1368,6 @@ public class StatusBar extends SystemUI implements DemoMode,
 
 public void updateBlurVisibility() {
 
-          if (QSBlurAlpha > 0 && !dataupdated && !mIsKeyguard) {
-            DataUsageView.updateUsage();
-            dataupdated = true;
-        }
-
         int QSUserAlpha = Settings.System.getInt(mContext.getContentResolver(),
               Settings.System.QS_BLUR_ALPHA, 100);
         int QSBlurAlpha = Math.round(255.0f *
@@ -1380,6 +1375,11 @@ public void updateBlurVisibility() {
         int QSBlurIntensity = Settings.System.getInt(mContext.getContentResolver(),
               Settings.System.QS_BLUR_INTENSITY, 30); // defaulting to 7.5f radius
         boolean enoughBlurData = (QSBlurAlpha > 0 && QSBlurIntensity > 0);
+        
+        if (QSBlurAlpha > 0 && !dataupdated && !mIsKeyguard) {
+            DataUsageView.updateUsage();
+            dataupdated = true;
+        }
 
         if (enoughBlurData && !blurperformed && !mIsKeyguard && isQSBlurEnabled()) {
             Bitmap bittemp = ImageUtilities.blurImage(mContext,
