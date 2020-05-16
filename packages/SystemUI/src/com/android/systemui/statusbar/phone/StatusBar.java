@@ -1367,7 +1367,8 @@ public class StatusBar extends SystemUI implements DemoMode,
     }
 
 public void updateBlurVisibility() {
-
+        int QSUserAlpha = Settings.System.getInt(mContext.getContentResolver(),
+              Settings.System.QS_BLUR_ALPHA, 100);
        float QSBlurAlpha = mNotificationPanel.getExpandedFraction() * (float)((float) QSUserAlpha / 100.0);
         boolean enoughBlurData = (QSBlurAlpha > 0 && qsBlurIntensity() > 0);
         

@@ -2416,8 +2416,4 @@ enum PageId {
     // Panel for Bluetooth
     PANEL_BLUETOOTH = 2001;
 
-    // Evolution X Additions
-    // Panel for Mobile Data
-    PANEL_MOBILE_DATA = 2000;
->>>>>>> f3c9f13c7c7... QS: Add and use Mobile Data panel
 }

@@ -155,6 +155,9 @@ import java.util.function.BiConsumer;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import android.os.UserHandle;
+import android.app.Notification;
+import android.content.ContentResolver;
 
 /**
  * A layout which handles a dynamic amount of notifications and presents them in a scrollable stack.
@@ -538,7 +541,7 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
         mKeyguardBypassController = keyguardBypassController;
         mFalsingManager = falsingManager;
 
-mShowHeaders = Settings.System.getIntForUser(getContext().getContentResolver(),
+        mShowHeaders = Settings.System.getIntForUser(getContext().getContentResolver(),
                 Settings.System.NOTIFICATION_HEADERS, 1, UserHandle.USER_CURRENT) == 1;
 
         mSectionsManager =
