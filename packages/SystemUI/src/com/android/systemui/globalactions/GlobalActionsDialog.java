@@ -1797,7 +1797,7 @@ public class GlobalActionsDialog implements DialogInterface.OnDismissListener,
             View v1 = window.getDecorView();
             window.requestFeature(Window.FEATURE_NO_TITLE);
             Bitmap bittemp = ImageUtilities.blurImage(mContext, ImageUtilities.screenshotSurface(mContext),Settings.System.getInt(mContext.getContentResolver(),
-              Settings.System.QS_BLUR_INTENSITY));
+              Settings.System.QS_BLUR_INTENSITY, 30));
             Drawable background = new BitmapDrawable(mContext.getResources(), bittemp);
             // Inflate the decor view, so the attributes below are not overwritten by the theme.
             window.getDecorView();
@@ -1899,7 +1899,7 @@ public class GlobalActionsDialog implements DialogInterface.OnDismissListener,
             }
             getWindow().setBackgroundDrawable(mBackgroundDrawable);
             Bitmap bittemp = ImageUtilities.blurImage(mContext, ImageUtilities.screenshotSurface(mContext),Settings.System.getInt(mContext.getContentResolver(),
-              Settings.System.QS_BLUR_INTENSITY));
+              Settings.System.QS_BLUR_INTENSITY, 30));
             Drawable background = new BitmapDrawable(mContext.getResources(), bittemp);
             getWindow().setBackgroundDrawable(background);
         }
