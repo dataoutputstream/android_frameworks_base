@@ -2495,5 +2495,8 @@
 
     <!-- Notification content text when switching to a default launcher that supports gesture navigation [CHAR LIMIT=NONE] -->
     <string name="notification_content_gesture_nav_available">Go to Settings to update system navigation</string>
+    
+    <string name="doze_brightness_sensor_type">Doze Brightness Sensor Type</string>
+    
 
 </resources>

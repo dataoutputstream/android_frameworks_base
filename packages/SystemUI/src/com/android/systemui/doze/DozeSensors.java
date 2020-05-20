@@ -18,7 +18,6 @@ package com.android.systemui.doze;
 
 import static com.android.systemui.plugins.SensorManagerPlugin.Sensor.TYPE_WAKE_DISPLAY;
 import static com.android.systemui.plugins.SensorManagerPlugin.Sensor.TYPE_WAKE_LOCK_SCREEN;
-
 import android.annotation.AnyThread;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
