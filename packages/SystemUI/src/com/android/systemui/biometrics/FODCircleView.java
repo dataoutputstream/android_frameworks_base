@@ -123,7 +123,16 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
         R.drawable.fod_icon_sun_metro,
         R.drawable.fod_marco_1,
         R.drawable.fod_marco_2,
-        R.drawable.fod_marco_3
+        R.drawable.fod_marco_3,
+        R.drawable.fod_icon_MB_stag_1,
+        R.drawable.fod_icon_MB_stag_2,
+        R.drawable.fod_icon_MB_stag_3,
+        R.drawable.fod_icon_bluefinger,
+        R.drawable.fod_icon_cryptic,
+        R.drawable.fod_icon_mbc1,
+        R.drawable.fod_icon_pussies,
+        R.drawable.fod_icon_canedimerda,
+        R.drawable.fod_icon_trasparent
     };
 
     private int mPressedIcon;

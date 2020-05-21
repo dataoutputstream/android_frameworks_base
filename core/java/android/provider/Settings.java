@@ -5657,11 +5657,8 @@ public final class Settings {
 
         /** @hide */
         private static final Validator SCREENSHOT_TYPE_VALIDATOR = ANY_INTEGER_VALIDATOR;
-
-        /** @hide */
-        private static final Validator FOD_PRESSED_STATE_VALIDATOR =
-                new SettingsValidators.InclusiveIntegerRangeValidator(0, 2);
-
+        
+        
         /**
 
          * Change volume up and down handlign based on rotation
