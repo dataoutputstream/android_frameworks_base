@@ -5319,14 +5319,6 @@ public final class Settings {
          */
         public static final String SMART_CHARGING_RESUME_LEVEL = "smart_charging_resume_level";
 
-        /**
-         * Whether to show VoLTE icon or not
-         * @hide
-         */
-        public static final String VOLTE_ICON = "volte_icon";
-
-        /** @hide */
-        private static final Validator VOLTE_ICON_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /** @hide */
         public static final String GESTURE_PILL_TOGGLE = "gesture_pill_toggle";
@@ -6225,7 +6217,6 @@ public final class Settings {
             STATUS_BAR_CUSTOM_HEADER_IMAGE,
             STATUS_BAR_FILE_HEADER_IMAGE,
             DOZE_ON_CHARGE,
-            VOLTE_ICON,
             GESTURE_PILL_TOGGLE,
             NETWORK_TRAFFIC_STATE,
             NETWORK_TRAFFIC_LOCATION,
@@ -6276,6 +6267,7 @@ public final class Settings {
             HIDE_SMART_REPLIES,
             QS_PANEL_BG_USE_NEW_TINT,
             NOTIFICATION_HEADERS,
+
         };
 
         /**
@@ -6289,8 +6281,8 @@ public final class Settings {
          */
         public static final String[] LEGACY_RESTORE_SETTINGS = {
         };
-
-	/**
+        
+        /**
          * These are all public system settings
          *
          * @hide
@@ -6445,7 +6437,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(STATUS_BAR_CUSTOM_HEADER_IMAGE);
             PRIVATE_SETTINGS.add(STATUS_BAR_FILE_HEADER_IMAGE);
             PRIVATE_SETTINGS.add(DOZE_ON_CHARGE);
-            PRIVATE_SETTINGS.add(VOLTE_ICON);
             PRIVATE_SETTINGS.add(GESTURE_PILL_TOGGLE);
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_STATE);
             PRIVATE_SETTINGS.add(NETWORK_TRAFFIC_LOCATION);
@@ -6636,7 +6627,6 @@ public final class Settings {
             VALIDATORS.put(STATUS_BAR_CUSTOM_HEADER_IMAGE, STATUS_BAR_CUSTOM_HEADER_IMAGE_VALIDATOR);
             VALIDATORS.put(STATUS_BAR_FILE_HEADER_IMAGE, STATUS_BAR_FILE_HEADER_IMAGE_VALIDATOR);
             VALIDATORS.put(DOZE_ON_CHARGE, DOZE_ON_CHARGE_VALIDATOR);
-            VALIDATORS.put(VOLTE_ICON, VOLTE_ICON_VALIDATOR);
             VALIDATORS.put(GESTURE_PILL_TOGGLE, GESTURE_PILL_TOGGLE_VALIDATOR);
             VALIDATORS.put(NETWORK_TRAFFIC_STATE, NETWORK_TRAFFIC_STATE_VALIDATOR);
             VALIDATORS.put(NETWORK_TRAFFIC_LOCATION, NETWORK_TRAFFIC_LOCATION_VALIDATOR);
@@ -6692,6 +6682,7 @@ public final class Settings {
             VALIDATORS.put(HIDE_SMART_REPLIES, HIDE_SMART_REPLIES_VALIDATOR);
             VALIDATORS.put(QS_PANEL_BG_USE_NEW_TINT, QS_PANEL_BG_USE_NEW_TINT_VALIDATOR);
             VALIDATORS.put(NOTIFICATION_HEADERS, NOTIFICATION_HEADERS_VALIDATOR);
+
         }
 
         /**
