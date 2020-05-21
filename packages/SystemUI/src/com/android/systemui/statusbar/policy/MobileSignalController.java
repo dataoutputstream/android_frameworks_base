@@ -108,8 +108,6 @@ public class MobileSignalController extends SignalController<
 
     // Show lte/4g switch
     private boolean mShowLteFourGee;
-    // Volte Icon
-    private boolean mVoLTEicon;
 
     // TODO: Reduce number of vars passed in, if we have the NetworkController, probably don't
     // need listener lists anymore.
@@ -192,9 +190,6 @@ public class MobileSignalController extends SignalController<
            resolver.registerContentObserver(Settings.System.getUriFor(
                   Settings.System.SHOW_LTE_FOURGEE),
                   false, this, UserHandle.USER_ALL);
-	    resolver.registerContentObserver(Settings.System.getUriFor(
-                  Settings.System.SHOW_VOLTE_ICON),
-                  false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -205,18 +200,14 @@ public class MobileSignalController extends SignalController<
                     mShowLteFourGee = Settings.System.getIntForUser(
                             mContext.getContentResolver(),
                             Settings.System.SHOW_LTE_FOURGEE,
-                            1, UserHandle.USER_CURRENT) == 1;
-            } else if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.SHOW_VOLTE_ICON))) {
-                    mVoLTEicon = Settings.System.getIntForUser(
-                            mContext.getContentResolver(),
-                            Settings.System.SHOW_VOLTE_ICON,
-                            1, UserHandle.USER_CURRENT) == 1;
+                            0, UserHandle.USER_CURRENT) == 1;
+            
+                    mapIconSets();
+                    updateTelephony();
             }
-            mapIconSets();
-            updateTelephony();
         }
     }
+    
 
     public void setConfiguration(Config config) {
         mConfig = config;
@@ -402,7 +393,7 @@ public class MobileSignalController extends SignalController<
     private int getVolteResId() {
         int resId = 0;
         if ( (mCurrentState.voiceCapable || mCurrentState.videoCapable)
-                &&  mCurrentState.imsRegistered && mVoLTEicon) {
+                &&  mCurrentState.imsRegistered ) {
             resId = R.drawable.ic_volte;
         }
         return resId;

@@ -6281,7 +6281,6 @@ public final class Settings {
          */
         public static final String[] LEGACY_RESTORE_SETTINGS = {
         };
-        
         /**
          * These are all public system settings
          *
