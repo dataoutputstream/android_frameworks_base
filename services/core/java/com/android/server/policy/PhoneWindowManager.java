@@ -2268,7 +2268,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mDoubleTapToWake = Settings.Secure.getInt(resolver,
                 Settings.Secure.DOUBLE_TAP_TO_WAKE, 1) == 1;
         mDoubleTapToDoze = Settings.System.getInt(resolver,
-                Settings.System.DOZE_TRIGGER_DOUBLETAP, 1) == 1;
+                Settings.System.DOZE_TRIGGER_DOUBLETAP, 0) == 1;
 
         synchronized (mLock) {
             mEndcallBehavior = Settings.System.getIntForUser(resolver,
