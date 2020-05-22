@@ -200,7 +200,7 @@ public class MobileSignalController extends SignalController<
                     Settings.System.getUriFor(Settings.System.VOLTE_ICON_STYLE),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.USE_OLD_MOBILETYPE),
+                    Settings.System.getUriFor(Settings.System.OMNI_USE_OLD_MOBILETYPE),
                     false, this, UserHandle.USER_ALL);
 
         }
@@ -211,7 +211,7 @@ public class MobileSignalController extends SignalController<
             if (uri.equals(Settings.System.getUriFor(Settings.System.SHOW_LTE_FOURGEE))
                     || uri.equals(Settings.System.getUriFor(Settings.System.VOLTE_ICON))
                     || uri.equals(Settings.System.getUriFor(Settings.System.VOLTE_ICON_STYLE))
-                    || uri.equals(Settings.System.getUriFor(Settings.System.USE_OLD_MOBILETYPE))) {
+                    || uri.equals(Settings.System.getUriFor(Settings.System.OMNI_USE_OLD_MOBILETYPE))) {
                 updateSettings();
             }
         }
