@@ -206,6 +206,14 @@ public class FODCircleView extends ImageView{
              hideCircle();
         }
         
+        @Override
+        public void onScreenTurnedOn() {
+            hide();
+            if (mUpdateMonitor.isFingerprintDetectionRunning()) {
+                show();
+            }
+        }
+        
 
         @Override
         public void onBiometricHelp(int msgId, String helpString,
