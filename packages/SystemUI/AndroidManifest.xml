@@ -257,8 +257,6 @@
 
     <!-- Pixel Live Wallpapers -->
     <protected-broadcast android:name="com.breel.wallpapers.NOTIFICATION_RECEIVED"/>
-    <permission android:name="com.breel.wallpapers.notifications"/>
-    <uses-permission android:name="com.breel.wallpapers.notifications"/>
 
     <!-- Sync tile -->
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />

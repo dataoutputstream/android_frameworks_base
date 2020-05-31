@@ -1337,13 +1337,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         switch (behavior) {
             case MULTI_PRESS_POWER_NOTHING:
                 if ((mTorchActionMode == 1) && (!isScreenOn() || isDozeMode())) {
-<<<<<<< HEAD
-                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, true,
-                            "Power - Long Press - Torch");
-                    StagUtils.toggleCameraFlash();
-=======
                     toggleFlashLight();
->>>>>>> 6687d02a5be... Power button flashlight toggle: rely on aosp doze sensors check code
                 }
                 break;
             case MULTI_PRESS_POWER_THEATER_MODE:
