@@ -2879,6 +2879,14 @@ private void drawBlurView() {
                 navbarColorManagedByIme);
     }
 
+    protected final int getSystemUiVisibility() {
+        return mSystemUiVisibility;
+    }
+
+    protected final int getDisplayId() {
+        return mDisplayId;
+    }
+
     @Override
     public void showWirelessChargingAnimation(int batteryLevel) {
         if (mDozing || mKeyguardManager.isKeyguardLocked()) {
@@ -2912,7 +2920,7 @@ private void drawBlurView() {
     }
 
     protected BarTransitions getStatusBarTransitions() {
-        return mStatusBarView.getBarTransitions();
+        return mStatusBarWindow.getBarTransitions();
     }
 
     @Override  // CommandQueue
@@ -2950,8 +2958,10 @@ private void drawBlurView() {
 
     void checkBarModes() {
         if (mDemoMode) return;
-        if (mStatusBarView != null) checkBarMode(mStatusBarMode, mStatusBarWindowState,
-                getStatusBarTransitions());
+        if (mStatusBarView != null && getStatusBarTransitions() != null) {
+            checkBarMode(mStatusBarMode, mStatusBarWindowState,
+                    getStatusBarTransitions());
+        }
         mNavigationBarController.checkNavBarModes(mDisplayId);
         mNoAnimationOnNextBarModeChange = false;
     }
@@ -2969,8 +2979,8 @@ private void drawBlurView() {
     }
 
     private void finishBarAnimations() {
-        if (mStatusBarView != null) {
-            mStatusBarView.getBarTransitions().finishAnimations();
+        if (mStatusBarWindow != null && mStatusBarWindow.getBarTransitions() != null) {
+            mStatusBarWindow.getBarTransitions().finishAnimations();
         }
         mNavigationBarController.finishBarAnimations(mDisplayId);
     }
@@ -3048,8 +3058,8 @@ private void drawBlurView() {
                 Settings.Global.ZEN_MODE_OFF)));
         pw.print("  mWallpaperSupported= "); pw.println(mWallpaperSupported);
 
-        if (mStatusBarView != null) {
-            dumpBarTransitions(pw, "mStatusBarView", mStatusBarView.getBarTransitions());
+        if (mStatusBarWindow != null) {
+            dumpBarTransitions(pw, "mStatusBarWindow", mStatusBarWindow.getBarTransitions());
         }
         pw.println("  StatusBarWindowView: ");
         if (mStatusBarWindow != null) {
@@ -3747,8 +3757,8 @@ private void drawBlurView() {
                     -1;
             if (barMode != -1) {
                 boolean animate = true;
-                if (mStatusBarView != null) {
-                    mStatusBarView.getBarTransitions().transitionTo(barMode, animate);
+                if (mStatusBarWindow != null && mStatusBarWindow.getBarTransitions() != null) {
+                    mStatusBarWindow.getBarTransitions().transitionTo(barMode, animate);
                 }
                 mNavigationBarController.transitionTo(mDisplayId, barMode, animate);
             }
