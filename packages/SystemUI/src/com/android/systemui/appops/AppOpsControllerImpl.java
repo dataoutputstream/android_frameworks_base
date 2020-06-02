@@ -222,6 +222,7 @@ public class AppOpsControllerImpl implements AppOpsController,
         mBGHandler.removeCallbacksAndMessages(item);
         mBGHandler.scheduleRemoval(item, NOTED_OP_TIME_DELAY_MS);
         return createdNew;
+
     }
 
     /**
@@ -275,6 +276,7 @@ public class AppOpsControllerImpl implements AppOpsController,
         }
 
         return isUserSensitive(appOpCode, uid, packageName);
+
     }
 
     /**
@@ -359,8 +361,12 @@ public class AppOpsControllerImpl implements AppOpsController,
     }
 
     private void notifySuscribers(int code, int uid, String packageName, boolean active) {
+<<<<<<< HEAD
         if (mCallbacksByCode.containsKey(code)
                 && isUserVisible(code, uid, packageName)) {
+=======
+        if (mCallbacksByCode.containsKey(code)) {
+>>>>>>> android-10.0.0_r37
             if (DEBUG) Log.d(TAG, "Notifying of change in package " + packageName);
             for (Callback cb: mCallbacksByCode.get(code)) {
                 cb.onActiveStateChanged(code, uid, packageName, active);
