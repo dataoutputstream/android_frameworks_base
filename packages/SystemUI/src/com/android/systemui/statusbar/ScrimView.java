@@ -16,8 +16,6 @@
 
 package com.android.systemui.statusbar;
 
-import static java.lang.Float.isNaN;
-
 import android.annotation.NonNull;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -181,9 +179,6 @@ public class ScrimView extends View {
      * @param alpha Gradient alpha from 0 to 1.
      */
     public void setViewAlpha(float alpha) {
-        if (isNaN(alpha)) {
-            throw new IllegalArgumentException("alpha cannot be NaN");
-        }
         if (alpha != mViewAlpha) {
             mViewAlpha = alpha;
 

@@ -1553,21 +1553,22 @@ public class AudioManager {
      *     {@link AudioAttributes#ALLOW_CAPTURE_BY_ALL},
      *     {@link AudioAttributes#ALLOW_CAPTURE_BY_SYSTEM},
      *     {@link AudioAttributes#ALLOW_CAPTURE_BY_NONE}.
-     * @throws RuntimeException if the argument is not a valid value.
+     * @throws IllegalArgumentException if the argument is not a valid value.
      */
     public void setAllowedCapturePolicy(@AudioAttributes.CapturePolicy int capturePolicy) {
+        int flags = AudioAttributes.capturePolicyToFlags(capturePolicy, 0x0);
+        // TODO: got trough AudioService and save a cache to restore in case of AP crash
         // TODO: also pass the package in case multiple packages have the same UID
-        final IAudioService service = getService();
-        try {
-            int result = service.setAllowedCapturePolicy(capturePolicy);
-            if (result != AudioSystem.AUDIO_STATUS_OK) {
-                Log.e(TAG, "Could not setAllowedCapturePolicy: " + result);
-                return;
-            }
-        } catch (RemoteException e) {
-            throw e.rethrowFromSystemServer();
+        int result = AudioSystem.setAllowedCapturePolicy(Process.myUid(), flags);
+        if (result != AudioSystem.AUDIO_STATUS_OK) {
+            Log.e(TAG, "Could not setAllowedCapturePolicy: " + result);
+            return;
         }
+        mCapturePolicy = capturePolicy;
     }
+
+    @AudioAttributes.CapturePolicy
+    private int mCapturePolicy = AudioAttributes.ALLOW_CAPTURE_BY_ALL;
 
     /**
      * Return the capture policy.
@@ -1576,13 +1577,7 @@ public class AudioManager {
      */
     @AudioAttributes.CapturePolicy
     public int getAllowedCapturePolicy() {
-        int result = AudioAttributes.ALLOW_CAPTURE_BY_ALL;
-        try {
-            result = getService().getAllowedCapturePolicy();
-        } catch (RemoteException e) {
-            Log.e(TAG, "Failed to query allowed capture policy: " + e);
-        }
-        return result;
+        return mCapturePolicy;
     }
 
     //====================================================================

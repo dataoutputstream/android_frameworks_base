@@ -42,11 +42,11 @@ import androidx.annotation.VisibleForTesting;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.nano.MetricsProto;
+import com.android.systemui.R;
 import com.android.systemui.plugins.SensorManagerPlugin;
 import com.android.systemui.statusbar.phone.DozeParameters;
 import com.android.systemui.util.AlarmTimeout;
 import com.android.systemui.util.AsyncSensorManager;
-import com.android.systemui.util.ProximitySensor;
 import com.android.systemui.util.wakelock.WakeLock;
 
 import java.io.PrintWriter;
@@ -298,7 +298,6 @@ public class DozeSensors {
         final AlarmTimeout mCooldownTimer;
         final AlwaysOnDisplayPolicy mPolicy;
         final Sensor mSensor;
-        private final float mSensorThreshold;
         final boolean mUsingBrightnessSensor;
 
         public ProxSensor(AlwaysOnDisplayPolicy policy) {
@@ -308,15 +307,10 @@ public class DozeSensors {
 
             // The default prox sensor can be noisy, so let's use a prox gated brightness sensor
             // if available.
-
-            Sensor sensor = ProximitySensor.findCustomProxSensor(mContext, mSensorManager);
+            Sensor sensor = DozeSensors.findBrightnessSensorForProximity(mContext, mSensorManager);
             mUsingBrightnessSensor = sensor != null;
-            if (mUsingBrightnessSensor) {
-                mSensorThreshold = ProximitySensor.getBrightnessSensorThreshold(
-                        mContext.getResources());
-            } else {
+            if (sensor == null) {
                 sensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-                mSensorThreshold = sensor == null ? 0 : sensor.getMaximumRange();
             }
             mSensor = sensor;
         }
@@ -358,9 +352,11 @@ public class DozeSensors {
             if (DEBUG) Log.d(TAG, "onSensorChanged " + event);
 
             if (mUsingBrightnessSensor) {
-                mCurrentlyFar = event.values[0] > mSensorThreshold;
+                // The custom brightness sensor is gated by the proximity sensor and will return 0
+                // whenever prox is covered.
+                mCurrentlyFar = event.values[0] > 0;
             } else {
-                mCurrentlyFar = event.values[0] >= mSensorThreshold;
+                mCurrentlyFar = event.values[0] >= event.sensor.getMaximumRange();
             }
             mProxCallback.accept(mCurrentlyFar);
 

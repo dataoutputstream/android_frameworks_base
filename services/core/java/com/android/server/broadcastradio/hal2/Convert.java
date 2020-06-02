@@ -275,18 +275,8 @@ class Convert {
         return hwSel;
     }
 
-    private static boolean isEmpty(
+    static @NonNull ProgramSelector programSelectorFromHal(
             @NonNull android.hardware.broadcastradio.V2_0.ProgramSelector sel) {
-        if (sel.primaryId.type != 0) return false;
-        if (sel.primaryId.value != 0) return false;
-        if (sel.secondaryIds.size() != 0) return false;
-        return true;
-    }
-
-    static @Nullable ProgramSelector programSelectorFromHal(
-            @NonNull android.hardware.broadcastradio.V2_0.ProgramSelector sel) {
-        if (isEmpty(sel)) return null;
-
         ProgramSelector.Identifier[] secondaryIds = sel.secondaryIds.stream().
                 map(Convert::programIdentifierFromHal).map(Objects::requireNonNull).
                 toArray(ProgramSelector.Identifier[]::new);
@@ -374,7 +364,7 @@ class Convert {
                 collect(Collectors.toList());
 
         return new RadioManager.ProgramInfo(
-                Objects.requireNonNull(programSelectorFromHal(info.selector)),
+                programSelectorFromHal(info.selector),
                 programIdentifierFromHal(info.logicallyTunedTo),
                 programIdentifierFromHal(info.physicallyTunedTo),
                 relatedContent,
@@ -412,7 +402,7 @@ class Convert {
     public static @NonNull android.hardware.radio.Announcement announcementFromHal(
             @NonNull Announcement hwAnnouncement) {
         return new android.hardware.radio.Announcement(
-            Objects.requireNonNull(programSelectorFromHal(hwAnnouncement.selector)),
+            programSelectorFromHal(hwAnnouncement.selector),
             hwAnnouncement.type,
             vendorInfoFromHal(hwAnnouncement.vendorInfo)
         );

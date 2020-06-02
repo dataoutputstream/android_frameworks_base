@@ -32,8 +32,6 @@ import static org.mockito.Mockito.when;
 
 import static java.lang.Thread.sleep;
 
-import static java.lang.Thread.sleep;
-
 import android.app.AppOpsManager;
 import android.content.pm.PackageManager;
 import android.os.UserHandle;

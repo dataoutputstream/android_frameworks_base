@@ -112,9 +112,6 @@ public class CarNavigationButton extends com.android.keyguard.AlphaOptimizedImag
             try {
                 if (mBroadcastIntent) {
                     mContext.sendBroadcastAsUser(toSend, UserHandle.CURRENT);
-                    mContext.sendBroadcastAsUser(
-                            new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS),
-                            UserHandle.CURRENT);
                     return;
                 }
                 mContext.startActivityAsUser(toSend, UserHandle.CURRENT);

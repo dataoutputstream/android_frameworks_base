@@ -23,8 +23,8 @@
 
 namespace {
 
-bool isDebuggable_native() {
-    return android::GraphicsEnv::getInstance().isDebuggable();
+int getCanLoadSystemLibraries_native() {
+    return android::GraphicsEnv::getInstance().getCanLoadSystemLibraries();
 }
 
 void setDriverPathAndSphalLibraries_native(JNIEnv* env, jobject clazz, jstring path,
@@ -90,7 +90,7 @@ void hintActivityLaunch_native(JNIEnv* env, jobject clazz) {
 }
 
 const JNINativeMethod g_methods[] = {
-    { "isDebuggable", "()Z", reinterpret_cast<void*>(isDebuggable_native) },
+    { "getCanLoadSystemLibraries", "()I", reinterpret_cast<void*>(getCanLoadSystemLibraries_native) },
     { "setDriverPathAndSphalLibraries", "(Ljava/lang/String;Ljava/lang/String;)V", reinterpret_cast<void*>(setDriverPathAndSphalLibraries_native) },
     { "setGpuStats", "(Ljava/lang/String;Ljava/lang/String;JJLjava/lang/String;I)V", reinterpret_cast<void*>(setGpuStats_native) },
     { "setAngleInfo", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/io/FileDescriptor;JJ)V", reinterpret_cast<void*>(setAngleInfo_native) },

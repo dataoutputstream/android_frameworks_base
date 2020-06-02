@@ -14,8 +14,6 @@
 
 package com.android.systemui.utils.leaks;
 
-import android.content.res.Configuration;
-
 import com.android.systemui.statusbar.policy.ConfigurationController;
 
 public class FakeConfigurationController
@@ -24,10 +22,6 @@ public class FakeConfigurationController
 
     public FakeConfigurationController(LeakCheckedTest.SysuiLeakCheck sysuiLeakCheck) {
         super(sysuiLeakCheck, "config");
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfiguration) {
     }
 
     @Override

@@ -1180,10 +1180,6 @@ public class WallpaperManagerService extends IWallpaperManager.Stub
             }
         };
 
-        private Runnable mTryToRebindRunnable = () -> {
-            tryToRebind();
-        };
-
         WallpaperConnection(WallpaperInfo info, WallpaperData wallpaper, int clientUid) {
             mInfo = info;
             mWallpaper = wallpaper;
@@ -1290,7 +1286,7 @@ public class WallpaperManagerService extends IWallpaperManager.Stub
                         saveSettingsLocked(mWallpaper.userId);
                     }
                     FgThread.getHandler().removeCallbacks(mResetRunnable);
-                    mContext.getMainThreadHandler().removeCallbacks(mTryToRebindRunnable);
+                    mContext.getMainThreadHandler().removeCallbacks(this::tryToRebind);
                 }
             }
         }
@@ -1348,7 +1344,7 @@ public class WallpaperManagerService extends IWallpaperManager.Stub
                         < WALLPAPER_RECONNECT_TIMEOUT_MS) {
                     // Bind fail without timeout, schedule rebind
                     Slog.w(TAG, "Rebind fail! Try again later");
-                    mContext.getMainThreadHandler().postDelayed(mTryToRebindRunnable, 1000);
+                    mContext.getMainThreadHandler().postDelayed(this::tryToRebind, 1000);
                 } else {
                     // Timeout
                     Slog.w(TAG, "Reverting to built-in wallpaper!");

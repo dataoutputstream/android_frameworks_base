@@ -29,6 +29,7 @@ import android.content.pm.UserInfo;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.TransactionTooLargeException;
+import android.view.RemoteAnimationAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -347,7 +348,4 @@ public abstract class ActivityManagerInternal {
 
     // Starts a process as empty.
     public abstract int startActivityAsUserEmpty(Bundle options);
-
-    /** Returns true if the given UID is registered as an active instrumentation. */
-    public abstract boolean isActiveInstrumentation(int uid);
 }

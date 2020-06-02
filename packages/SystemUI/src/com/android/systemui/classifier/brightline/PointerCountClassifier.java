@@ -16,9 +16,6 @@
 
 package com.android.systemui.classifier.brightline;
 
-import static com.android.systemui.classifier.Classifier.NOTIFICATION_DRAG_DOWN;
-import static com.android.systemui.classifier.Classifier.QUICK_SETTINGS;
-
 import android.view.MotionEvent;
 
 /**
@@ -30,7 +27,6 @@ import android.view.MotionEvent;
 class PointerCountClassifier extends FalsingClassifier {
 
     private static final int MAX_ALLOWED_POINTERS = 1;
-    private static final int MAX_ALLOWED_POINTERS_SWIPE_DOWN = 2;
     private int mMaxPointerCount;
 
     PointerCountClassifier(FalsingDataProvider dataProvider) {
@@ -52,10 +48,6 @@ class PointerCountClassifier extends FalsingClassifier {
 
     @Override
     public boolean isFalseTouch() {
-        int interactionType = getInteractionType();
-        if (interactionType == QUICK_SETTINGS || interactionType == NOTIFICATION_DRAG_DOWN) {
-            return mMaxPointerCount > MAX_ALLOWED_POINTERS_SWIPE_DOWN;
-        }
         return mMaxPointerCount > MAX_ALLOWED_POINTERS;
     }
 }

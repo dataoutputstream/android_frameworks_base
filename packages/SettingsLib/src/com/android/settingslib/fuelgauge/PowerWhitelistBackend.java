@@ -49,7 +49,6 @@ public class PowerWhitelistBackend {
     private final ArraySet<String> mWhitelistedApps = new ArraySet<>();
     private final ArraySet<String> mSysWhitelistedApps = new ArraySet<>();
     private final ArraySet<String> mSysWhitelistedAppsExceptIdle = new ArraySet<>();
-    private final ArraySet<String> mDefaultActiveApps = new ArraySet<>();
 
     public PowerWhitelistBackend(Context context) {
         this(context, IDeviceIdleController.Stub.asInterface(
@@ -91,7 +90,17 @@ public class PowerWhitelistBackend {
         // should be automatically whitelisted (otherwise user may be able to set restriction on
         // them, leading to bad device behavior.)
 
-        if (mDefaultActiveApps.contains(pkg)) {
+        final boolean hasTelephony = mAppContext.getPackageManager().hasSystemFeature(
+                PackageManager.FEATURE_TELEPHONY);
+        final ComponentName defaultSms = SmsApplication.getDefaultSmsApplication(mAppContext,
+                true /* updateIfNeeded */);
+        if (hasTelephony && defaultSms != null && TextUtils.equals(pkg,
+                defaultSms.getPackageName())) {
+            return true;
+        }
+
+        final String defaultDialer = DefaultDialerManager.getDefaultDialerApplication(mAppContext);
+        if (hasTelephony && TextUtils.equals(pkg, defaultDialer)) {
             return true;
         }
 
@@ -157,7 +166,6 @@ public class PowerWhitelistBackend {
         mSysWhitelistedApps.clear();
         mSysWhitelistedAppsExceptIdle.clear();
         mWhitelistedApps.clear();
-        mDefaultActiveApps.clear();
         if (mDeviceIdleService == null) {
             return;
         }
@@ -174,21 +182,6 @@ public class PowerWhitelistBackend {
                     mDeviceIdleService.getSystemPowerWhitelistExceptIdle();
             for (String app : sysWhitelistedAppsExceptIdle) {
                 mSysWhitelistedAppsExceptIdle.add(app);
-            }
-            final boolean hasTelephony = mAppContext.getPackageManager().hasSystemFeature(
-                    PackageManager.FEATURE_TELEPHONY);
-            final ComponentName defaultSms = SmsApplication.getDefaultSmsApplication(mAppContext,
-                    true /* updateIfNeeded */);
-            final String defaultDialer = DefaultDialerManager.getDefaultDialerApplication(
-                    mAppContext);
-
-            if (hasTelephony) {
-                if (defaultSms != null) {
-                    mDefaultActiveApps.add(defaultSms.getPackageName());
-                }
-                if (!TextUtils.isEmpty(defaultDialer)) {
-                    mDefaultActiveApps.add(defaultDialer);
-                }
             }
         } catch (RemoteException e) {
             Log.w(TAG, "Unable to reach IDeviceIdleController", e);

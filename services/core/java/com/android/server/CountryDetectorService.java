@@ -16,6 +16,14 @@
 
 package com.android.server;
 
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+import java.util.HashMap;
+
+import com.android.internal.os.BackgroundThread;
+import com.android.internal.util.DumpUtils;
+import com.android.server.location.ComprehensiveCountryDetector;
+
 import android.content.Context;
 import android.location.Country;
 import android.location.CountryListener;
@@ -24,37 +32,21 @@ import android.location.ICountryListener;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.text.TextUtils;
 import android.util.PrintWriterPrinter;
 import android.util.Printer;
 import android.util.Slog;
 
-import com.android.internal.R;
-import com.android.internal.annotations.VisibleForTesting;
-import com.android.internal.os.BackgroundThread;
-import com.android.internal.util.DumpUtils;
-import com.android.server.location.ComprehensiveCountryDetector;
-import com.android.server.location.CountryDetectorBase;
-
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-
 /**
- * This class detects the country that the user is in. The default country detection is made through
- * {@link com.android.server.location.ComprehensiveCountryDetector}. It is possible to overlay the
- * detection algorithm by overlaying the attribute R.string.config_customCountryDetector with the
- * custom class name to use instead. The custom class must extend
- * {@link com.android.server.location.CountryDetectorBase}
+ * This class detects the country that the user is in through
+ * {@link ComprehensiveCountryDetector}.
  *
  * @hide
  */
-public class CountryDetectorService extends ICountryDetector.Stub {
+public class CountryDetectorService extends ICountryDetector.Stub implements Runnable {
 
     /**
-     * The class represents the remote listener, it will also removes itself from listener list when
-     * the remote process was died.
+     * The class represents the remote listener, it will also removes itself
+     * from listener list when the remote process was died.
      */
     private final class Receiver implements IBinder.DeathRecipient {
         private final ICountryListener mListener;
@@ -87,36 +79,28 @@ public class CountryDetectorService extends ICountryDetector.Stub {
         }
     }
 
-    private static final String TAG = "CountryDetector";
+    private final static String TAG = "CountryDetector";
 
-    /**
-     * Whether to dump the state of the country detector service to bugreports
-     */
+    /** Whether to dump the state of the country detector service to bugreports */
     private static final boolean DEBUG = false;
 
     private final HashMap<IBinder, Receiver> mReceivers;
     private final Context mContext;
-    private CountryDetectorBase mCountryDetector;
+    private ComprehensiveCountryDetector mCountryDetector;
     private boolean mSystemReady;
     private Handler mHandler;
     private CountryListener mLocationBasedDetectorListener;
 
     public CountryDetectorService(Context context) {
-        this(context, BackgroundThread.getHandler());
-    }
-
-    @VisibleForTesting
-    CountryDetectorService(Context context, Handler handler) {
         super();
-        mReceivers = new HashMap<>();
+        mReceivers = new HashMap<IBinder, Receiver>();
         mContext = context;
-        mHandler = handler;
     }
 
     @Override
     public Country detectCountry() {
         if (!mSystemReady) {
-            return null; // server not yet active
+            return null;   // server not yet active
         } else {
             return mCountryDetector.detectCountry();
         }
@@ -170,8 +154,9 @@ public class CountryDetectorService extends ICountryDetector.Stub {
         }
     }
 
+
     protected void notifyReceivers(Country country) {
-        synchronized (mReceivers) {
+        synchronized(mReceivers) {
             for (Receiver receiver : mReceivers.values()) {
                 try {
                     receiver.getListener().onCountryDetected(country);
@@ -185,56 +170,40 @@ public class CountryDetectorService extends ICountryDetector.Stub {
 
     void systemRunning() {
         // Shall we wait for the initialization finish.
-        mHandler.post(
-                () -> {
-                    initialize();
-                    mSystemReady = true;
-                });
+        BackgroundThread.getHandler().post(this);
     }
 
-    @VisibleForTesting
-    void initialize() {
-        final String customCountryClass = mContext.getString(R.string.config_customCountryDetector);
-        if (!TextUtils.isEmpty(customCountryClass)) {
-            mCountryDetector = loadCustomCountryDetectorIfAvailable(customCountryClass);
-        }
+    private void initialize() {
+        mCountryDetector = new ComprehensiveCountryDetector(mContext);
+        mLocationBasedDetectorListener = new CountryListener() {
+            public void onCountryDetected(final Country country) {
+                mHandler.post(new Runnable() {
+                    public void run() {
+                        notifyReceivers(country);
+                    }
+                });
+            }
+        };
+    }
 
-        if (mCountryDetector == null) {
-            Slog.d(TAG, "Using default country detector");
-            mCountryDetector = new ComprehensiveCountryDetector(mContext);
-        }
-        mLocationBasedDetectorListener = country -> mHandler.post(() -> notifyReceivers(country));
+    public void run() {
+        mHandler = new Handler();
+        initialize();
+        mSystemReady = true;
     }
 
     protected void setCountryListener(final CountryListener listener) {
-        mHandler.post(() -> mCountryDetector.setCountryListener(listener));
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mCountryDetector.setCountryListener(listener);
+            }
+        });
     }
 
-    @VisibleForTesting
-    CountryDetectorBase getCountryDetector() {
-        return mCountryDetector;
-    }
-
-    @VisibleForTesting
+    // For testing
     boolean isSystemReady() {
         return mSystemReady;
-    }
-
-    private CountryDetectorBase loadCustomCountryDetectorIfAvailable(
-            final String customCountryClass) {
-        CountryDetectorBase customCountryDetector = null;
-
-        Slog.d(TAG, "Using custom country detector class: " + customCountryClass);
-        try {
-            customCountryDetector = Class.forName(customCountryClass).asSubclass(
-                    CountryDetectorBase.class).getConstructor(Context.class).newInstance(
-                    mContext);
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-                | NoSuchMethodException | InvocationTargetException e) {
-            Slog.e(TAG, "Could not instantiate the custom country detector class");
-        }
-
-        return customCountryDetector;
     }
 
     @SuppressWarnings("unused")
@@ -245,10 +214,9 @@ public class CountryDetectorService extends ICountryDetector.Stub {
         try {
             final Printer p = new PrintWriterPrinter(fout);
             p.println("CountryDetectorService state:");
-            p.println("Country detector class=" + mCountryDetector.getClass().getName());
             p.println("  Number of listeners=" + mReceivers.keySet().size());
             if (mCountryDetector == null) {
-                p.println("  CountryDetector not initialized");
+                p.println("  ComprehensiveCountryDetector not initialized");
             } else {
                 p.println("  " + mCountryDetector.toString());
             }

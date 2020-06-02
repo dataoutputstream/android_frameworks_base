@@ -152,14 +152,14 @@ public class CornerHandleView extends View {
         // Attempt to get the bottom corner radius, otherwise fall back on the generic or top
         // values. If none are available, use the FALLBACK_RADIUS_DP.
         int radius = getResources().getDimensionPixelSize(
-                com.android.systemui.R.dimen.config_rounded_mask_size_bottom);
+                com.android.internal.R.dimen.rounded_corner_radius_bottom);
         if (radius == 0) {
             radius = getResources().getDimensionPixelSize(
-                    com.android.systemui.R.dimen.config_rounded_mask_size);
+                    com.android.internal.R.dimen.rounded_corner_radius);
         }
         if (radius == 0) {
             radius = getResources().getDimensionPixelSize(
-                    com.android.systemui.R.dimen.config_rounded_mask_size_top);
+                    com.android.internal.R.dimen.rounded_corner_radius_top);
         }
         if (radius == 0) {
             radius = (int) convertDpToPixel(FALLBACK_RADIUS_DP, mContext);

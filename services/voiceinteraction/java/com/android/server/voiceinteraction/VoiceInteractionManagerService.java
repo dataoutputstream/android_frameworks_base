@@ -20,7 +20,6 @@ import android.Manifest;
 import android.annotation.CallbackExecutor;
 import android.annotation.NonNull;
 import android.annotation.Nullable;
-import android.annotation.UserIdInt;
 import android.app.ActivityManager;
 import android.app.ActivityManagerInternal;
 import android.app.AppGlobals;
@@ -52,7 +51,6 @@ import android.os.Parcel;
 import android.os.RemoteCallback;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
-import android.os.Trace;
 import android.os.UserHandle;
 import android.os.UserManager;
 import android.provider.Settings;
@@ -67,7 +65,6 @@ import android.text.TextUtils;
 import android.util.ArraySet;
 import android.util.Log;
 import android.util.Slog;
-import android.util.TimingsTraceLog;
 
 import com.android.internal.app.IVoiceActionCheckCallback;
 import com.android.internal.app.IVoiceInteractionManagerService;
@@ -272,17 +269,7 @@ public class VoiceInteractionManagerService extends SystemService {
             }
         }
 
-        public void initForUser(@UserIdInt int userHandle) {
-            final TimingsTraceLog t = new TimingsTraceLog(TAG, Trace.TRACE_TAG_SYSTEM_SERVER);
-            t.traceBegin("initForUser(" + userHandle + ")");
-            try {
-                initForUserNoTracing(userHandle);
-            } finally {
-                t.traceEnd();
-            }
-        }
-
-        private void initForUserNoTracing(@UserIdInt int userHandle) {
+        public void initForUser(int userHandle) {
             if (DEBUG) Slog.d(TAG, "**************** initForUser user=" + userHandle);
             String curInteractorStr = Settings.Secure.getStringForUser(
                     mContext.getContentResolver(),
@@ -439,16 +426,6 @@ public class VoiceInteractionManagerService extends SystemService {
         }
 
         void switchImplementationIfNeededLocked(boolean force) {
-            final TimingsTraceLog t = new TimingsTraceLog(TAG, Trace.TRACE_TAG_SYSTEM_SERVER);
-            t.traceBegin("switchImplementation(" + mCurUser + ")");
-            try {
-                switchImplementationIfNeededNoTracingLocked(force);
-            } finally {
-                t.traceEnd();
-            }
-        }
-
-        void switchImplementationIfNeededNoTracingLocked(boolean force) {
             if (!mSafeMode) {
                 String curService = Settings.Secure.getStringForUser(
                         mResolver, Settings.Secure.VOICE_INTERACTION_SERVICE, mCurUser);

@@ -120,7 +120,7 @@ import javax.inject.Inject;
  * on clicks and view states of the nav bar.
  */
 public class NavigationBarFragment extends LifecycleFragment implements Callbacks,
-        NavigationModeController.ModeChangedListener, AutoHideElement {
+        NavigationModeController.ModeChangedListener {
 
     public static final String TAG = "NavigationBar";
     private static final boolean DEBUG = false;
@@ -970,16 +970,8 @@ public class NavigationBarFragment extends LifecycleFragment implements Callback
         mAutoHideController.setNavigationBar(this);
     }
 
-    // AutoHideElement
-    @Override
     public boolean isSemiTransparent() {
         return mNavigationBarMode == MODE_SEMI_TRANSPARENT;
-    }
-
-    // AutoHideElement
-    @Override
-    public void synchronizeState() {
-        checkNavBarModes();
     }
 
     private void checkBarModes() {

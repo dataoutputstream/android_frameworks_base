@@ -2165,7 +2165,7 @@ public class NotificationPanelView extends PanelView implements
         } else {
             maxHeight = calculatePanelHeightShade();
         }
-        maxHeight = Math.max(min, maxHeight);
+        maxHeight = Math.max(maxHeight, min);
         return maxHeight;
     }
 

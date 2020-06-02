@@ -47,7 +47,7 @@ public class AutoHideController implements CommandQueue.Callbacks {
     private final NotificationRemoteInputManager mRemoteInputManager;
     private final CommandQueue mCommandQueue;
     private StatusBar mStatusBar;
-    private AutoHideElement mNavigationBar;
+    private NavigationBarFragment mNavigationBar;
 
     @VisibleForTesting
     int mDisplayId;
@@ -85,11 +85,11 @@ public class AutoHideController implements CommandQueue.Callbacks {
         }
     }
 
-    public void setStatusBar(StatusBar statusBar) {
+    void setStatusBar(StatusBar statusBar) {
         mStatusBar = statusBar;
     }
 
-    public void setNavigationBar(AutoHideElement navigationBar) {
+    void setNavigationBar(NavigationBarFragment navigationBar) {
         mNavigationBar = navigationBar;
     }
 
@@ -158,8 +158,7 @@ public class AutoHideController implements CommandQueue.Callbacks {
         mAutoHideSuspended = (mSystemUiVisibility & getTransientMask()) != 0;
     }
 
-    /** Schedule auto hide if necessary otherwise cancel any pending runnables. */
-    public void touchAutoHide() {
+    void touchAutoHide() {
         // update transient bar auto hide
         if ((hasStatusBar() && mStatusBar.getStatusBarMode() == MODE_SEMI_TRANSPARENT)
                 || hasNavigationBar() && mNavigationBar.isSemiTransparent()) {
@@ -173,14 +172,13 @@ public class AutoHideController implements CommandQueue.Callbacks {
         if (hasStatusBar()) {
             return () -> mStatusBar.checkBarModes();
         } else if (hasNavigationBar()) {
-            return () -> mNavigationBar.synchronizeState();
+            return () -> mNavigationBar.checkNavBarModes();
         } else {
             return null;
         }
     }
 
-    /** Remove any scheduled auto hide runnables. */
-    public void cancelAutoHide() {
+    private void cancelAutoHide() {
         mAutoHideSuspended = false;
         mHandler.removeCallbacks(mAutoHide);
     }
@@ -204,8 +202,7 @@ public class AutoHideController implements CommandQueue.Callbacks {
         }
     }
 
-    /** Schedule auto hide. */
-    public void userAutoHide() {
+    private void userAutoHide() {
         cancelAutoHide();
         mHandler.postDelayed(mAutoHide, 350); // longer than app gesture -> flag clear
     }

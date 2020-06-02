@@ -26,11 +26,8 @@ import android.app.KeyguardManager;
 import android.car.Car;
 import android.car.Car.CarServiceLifecycleListener;
 import android.car.media.CarAudioManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
 import android.graphics.Color;
@@ -42,7 +39,6 @@ import android.os.Debug;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.os.UserHandle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -179,17 +175,6 @@ public class CarVolumeDialogImpl implements VolumeDialog {
         mCarAudioManager.registerCarVolumeCallback(mVolumeChangeCallback);
     };
 
-    private final BroadcastReceiver mHomeButtonPressedBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (!intent.getAction().equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
-                return;
-            }
-
-            dismiss(Events.DISMISS_REASON_VOLUME_CONTROLLER);
-        }
-    };
-
     public CarVolumeDialogImpl(Context context) {
         mContext = context;
         mKeyguard = (KeyguardManager) mContext.getSystemService(Context.KEYGUARD_SERVICE);
@@ -219,10 +204,6 @@ public class CarVolumeDialogImpl implements VolumeDialog {
     public void init(int windowType, Callback callback) {
         initDialog();
 
-        mContext.registerReceiverAsUser(mHomeButtonPressedBroadcastReceiver, UserHandle.CURRENT,
-                new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS), /* broadcastPermission= */
-                null, /* scheduler= */ null);
-
         ((CarSystemUIFactory) SystemUIFactory.getInstance()).getCarServiceProvider(mContext)
                 .addListener(mCarServiceLifecycleListener);
     }
@@ -230,8 +211,6 @@ public class CarVolumeDialogImpl implements VolumeDialog {
     @Override
     public void destroy() {
         mHandler.removeCallbacksAndMessages(/* token= */ null);
-
-        mContext.unregisterReceiver(mHomeButtonPressedBroadcastReceiver);
 
         cleanupAudioManager();
     }

@@ -16,8 +16,6 @@
 
 package com.android.systemui.classifier.brightline;
 
-import static com.android.systemui.classifier.Classifier.UNLOCK;
-
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 
@@ -44,7 +42,6 @@ public class ClassifierTest extends SysuiTestCase {
         displayMetrics.widthPixels = 1000;
         displayMetrics.heightPixels = 1000;
         mDataProvider = new FalsingDataProvider(displayMetrics);
-        mDataProvider.setInteractionType(UNLOCK);
     }
 
     @After
